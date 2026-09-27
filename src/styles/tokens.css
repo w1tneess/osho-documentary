@@ -1,0 +1,124 @@
+/* ─────────────────────────────────────────────────────────
+   OSHO DOCUMENTARY — Design Token System
+   Source of truth: DESIGN.md
+   
+   Warm, earthy, editorial, cinematic, restrained.
+   No SaaS look. No devotional imagery. No neon.
+   ───────────────────────────────────────────────────────── */
+
+:root {
+  /* ─── Color Palette ─── */
+  --color-earth-deep:     #1a1410;
+  --color-earth-dark:     #2c2418;
+  --color-earth-mid:      #4a3c2a;
+  --color-earth-warm:     #6b5a42;
+  --color-earth-light:    #a89272;
+
+  --color-sand-deep:      #c4a97a;
+  --color-sand-mid:       #d4be94;
+  --color-sand-light:     #e8d8b8;
+  --color-sand-pale:      #f0e6d0;
+
+  --color-paper:          #f5efe3;
+  --color-paper-warm:     #ede4d4;
+
+  --color-terracotta:     #b85c3a;
+  --color-rust:           #8b4a2a;
+  --color-saffron:        #d4943a;
+  --color-ochre:          #c48a3a;
+
+  --color-sky-dusk:       #7a90a8;
+  --color-sky-night:      #2a3a4e;
+  --color-sky-dawn:       #d4a07a;
+
+  --color-ink:            #1a1410;
+  --color-ink-soft:       #3a3228;
+  --color-ink-faint:      #5a5040;
+
+  --color-white:          #faf6ee;
+  --color-white-pure:     #ffffff;
+
+  /* ─── Typography ─── */
+  --font-editorial:   'PP Editorial New', 'Playfair Display', 'Georgia', serif;
+  --font-body:        'Instrument Sans', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono:        'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+
+  /* Type Scale — fluid with clamp */
+  --text-hero:        clamp(3.2rem, 8vw, 7.5rem);
+  --text-chapter:     clamp(2.4rem, 5vw, 4.5rem);
+  --text-heading:     clamp(1.6rem, 3vw, 2.8rem);
+  --text-subheading:  clamp(1.2rem, 2vw, 1.8rem);
+  --text-body:        clamp(1rem, 1.2vw, 1.125rem);
+  --text-caption:     clamp(0.75rem, 0.9vw, 0.875rem);
+  --text-eyebrow:     clamp(0.625rem, 0.7vw, 0.75rem);
+
+  /* Line Heights */
+  --leading-tight:    1.1;
+  --leading-snug:     1.25;
+  --leading-normal:   1.6;
+  --leading-relaxed:  1.75;
+
+  /* Letter Spacing */
+  --tracking-tight:   -0.02em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.06em;
+  --tracking-ultra:   0.14em;
+
+  /* ─── Spacing (4px base) ─── */
+  --space-1:   0.25rem;   /* 4px */
+  --space-2:   0.5rem;    /* 8px */
+  --space-3:   0.75rem;   /* 12px */
+  --space-4:   1rem;      /* 16px */
+  --space-6:   1.5rem;    /* 24px */
+  --space-8:   2rem;      /* 32px */
+  --space-12:  3rem;      /* 48px */
+  --space-16:  4rem;      /* 64px */
+  --space-24:  6rem;      /* 96px */
+  --space-32:  8rem;      /* 128px */
+  --space-40:  10rem;     /* 160px */
+
+  /* ─── Layout ─── */
+  --content-max-width:  42rem;
+  --content-wide:       56rem;
+  --page-gutter:        clamp(1.5rem, 4vw, 4rem);
+
+  /* ─── Easing (from ui-animation skill) ─── */
+  --ease-enter:     cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-move:      cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-expo-out:  cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-drawer:    cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* ─── Borders ─── */
+  --border-thin:     1px solid rgba(26, 20, 16, 0.1);
+  --border-editorial: 1px solid rgba(26, 20, 16, 0.15);
+  --radius-none:     0;
+  --radius-sm:       3px;
+  --radius-md:       6px;
+
+  /* ─── Shadows (natural, soft) ─── */
+  --shadow-subtle:   0 1px 3px rgba(26, 20, 16, 0.06);
+  --shadow-soft:     0 4px 16px rgba(26, 20, 16, 0.08);
+
+  /* ─── Z-Index Scale ─── */
+  --z-canvas:        0;
+  --z-content:       10;
+  --z-overlay:       20;
+  --z-nav:           30;
+  --z-modal:         40;
+
+  /* ─── Transitions ─── */
+  --transition-fast:   150ms var(--ease-enter);
+  --transition-base:   250ms var(--ease-enter);
+  --transition-slow:   500ms var(--ease-move);
+  --transition-reveal:  800ms var(--ease-expo-out);
+}
+
+/* ─── Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast:   0ms;
+    --transition-base:   0ms;
+    --transition-slow:   0ms;
+    --transition-reveal: 0ms;
+  }
+}
