@@ -51,6 +51,7 @@ h1, h2, h3, h4 {
 p {
   line-height: var(--leading-relaxed);
   color: var(--color-ink-soft);
+  max-width: var(--reading-measure);
 }
 
 /* ─── Selection ─── */
@@ -134,13 +135,17 @@ p {
 }
 
 /* A single composed editorial spread / moment in the journey */
+/* A single composed editorial spread / moment in the journey */
 .editorial-spread {
   min-height: 80vh;
+  min-height: 80dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: var(--space-16) var(--page-gutter);
+  padding: var(--spread-padding-y) max(var(--page-gutter), var(--safe-right)) var(--spread-padding-y) max(var(--page-gutter), var(--safe-left));
   position: relative;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 /* Intentional Viewport Canvas Layouts with Ambient Paper Washes */
@@ -149,13 +154,14 @@ p {
   background: linear-gradient(
     90deg,
     rgba(245, 239, 227, 0.94) 0%,
-    rgba(245, 239, 227, 0.86) 32%,
-    rgba(245, 239, 227, 0.4) 52%,
-    rgba(245, 239, 227, 0) 70%
+    rgba(245, 239, 227, 0.86) min(42vw, 36rem),
+    rgba(245, 239, 227, 0.4) min(60vw, 46rem),
+    rgba(245, 239, 227, 0) min(76vw, 56rem)
   );
 }
 .spread-left .editorial-content {
-  max-width: 38rem;
+  max-width: min(100%, 38rem);
+  width: 100%;
   margin-right: auto;
 }
 
@@ -164,13 +170,14 @@ p {
   background: linear-gradient(
     270deg,
     rgba(245, 239, 227, 0.94) 0%,
-    rgba(245, 239, 227, 0.86) 32%,
-    rgba(245, 239, 227, 0.4) 52%,
-    rgba(245, 239, 227, 0) 70%
+    rgba(245, 239, 227, 0.86) min(42vw, 36rem),
+    rgba(245, 239, 227, 0.4) min(60vw, 46rem),
+    rgba(245, 239, 227, 0) min(76vw, 56rem)
   );
 }
 .spread-right .editorial-content {
-  max-width: 38rem;
+  max-width: min(100%, 38rem);
+  width: 100%;
   margin-left: auto;
 }
 
@@ -185,7 +192,8 @@ p {
   );
 }
 .spread-center .editorial-content {
-  max-width: 44rem;
+  max-width: min(100%, 44rem);
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -198,7 +206,7 @@ p {
   );
 }
 .spread-wide .editorial-content {
-  max-width: var(--content-wide);
+  max-width: min(100%, var(--content-wide));
   width: 100%;
 }
 
@@ -206,7 +214,8 @@ p {
 .spread-quote {
   align-items: center;
   justify-content: center;
-  min-height: 85vh;
+  min-height: 80vh;
+  min-height: 80dvh;
   background: radial-gradient(
     ellipse 75% 65% at 50% 50%,
     rgba(245, 239, 227, 0.95) 0%,
@@ -215,7 +224,8 @@ p {
   );
 }
 .spread-quote .editorial-content {
-  max-width: 48rem;
+  max-width: min(100%, 48rem);
+  width: 100%;
   margin: 0 auto;
   text-align: center;
 }
@@ -223,7 +233,8 @@ p {
 /* Split Beat: Comparative two-column layout */
 .spread-split {
   align-items: center;
-  min-height: 85vh;
+  min-height: 80vh;
+  min-height: 80dvh;
   background: linear-gradient(
     180deg,
     rgba(245, 239, 227, 0.94) 0%,
@@ -231,20 +242,22 @@ p {
   );
 }
 .spread-split .editorial-content {
-  max-width: var(--content-wide);
+  max-width: min(100%, var(--content-wide));
   width: 100%;
 }
 .spread-split .beat-blocks-flow {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: var(--space-8);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: clamp(1.25rem, 3.5vw, 3rem);
   margin-top: var(--space-6);
+  width: 100%;
 }
 
 /* Statement Beat: Large resonant typography */
 .spread-statement {
   align-items: center;
-  min-height: 75vh;
+  min-height: 70vh;
+  min-height: 70dvh;
   background: radial-gradient(
     ellipse 75% 65% at 50% 50%,
     rgba(245, 239, 227, 0.95) 0%,
@@ -253,7 +266,8 @@ p {
   );
 }
 .spread-statement .editorial-content {
-  max-width: 46rem;
+  max-width: min(100%, 46rem);
+  width: 100%;
   margin: 0 auto;
   text-align: center;
 }
@@ -261,17 +275,19 @@ p {
 /* Timeline Beat: Clean chronology column */
 .spread-timeline {
   align-items: flex-start;
-  min-height: 75vh;
+  min-height: 70vh;
+  min-height: 70dvh;
   background: linear-gradient(
     90deg,
     rgba(245, 239, 227, 0.94) 0%,
-    rgba(245, 239, 227, 0.86) 32%,
-    rgba(245, 239, 227, 0.4) 52%,
-    rgba(245, 239, 227, 0) 70%
+    rgba(245, 239, 227, 0.86) min(42vw, 36rem),
+    rgba(245, 239, 227, 0.4) min(60vw, 46rem),
+    rgba(245, 239, 227, 0) min(76vw, 56rem)
   );
 }
 .spread-timeline .editorial-content {
-  max-width: 38rem;
+  max-width: min(100%, 38rem);
+  width: 100%;
   margin-right: auto;
 }
 
@@ -287,7 +303,7 @@ p {
 /* Beat Typography */
 .beat-title {
   font-family: var(--font-editorial);
-  font-size: clamp(1.6rem, 2.8vw, 2.35rem);
+  font-size: clamp(1.5rem, 2.5vw + 0.4rem, 2.4rem);
   font-weight: 500;
   color: var(--color-earth-deep);
   margin-top: var(--space-2);
@@ -297,7 +313,7 @@ p {
 
 .beat-subtitle {
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-size: clamp(0.75rem, 0.4vw + 0.65rem, 0.875rem);
   letter-spacing: var(--tracking-wide);
   color: var(--color-earth-warm);
   display: block;
@@ -308,33 +324,12 @@ p {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  width: 100%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .editorial-spread {
-    min-height: auto;
-    padding: var(--space-12) var(--space-4);
-  }
-  .spread-left .editorial-content,
-  .spread-right .editorial-content,
-  .spread-center .editorial-content,
-  .spread-quote .editorial-content,
-  .spread-split .editorial-content,
-  .spread-statement .editorial-content,
-  .spread-timeline .editorial-content {
-    max-width: 100%;
-    margin: 0;
-  }
-  .spread-split .beat-blocks-flow {
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
-  }
-  .editorial-content,
-  .hero-composition {
-    background: rgba(245, 239, 227, 0.92);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    padding: var(--space-6) var(--space-4);
+    background: rgba(245, 239, 227, 0.92) !important;
   }
 }
 

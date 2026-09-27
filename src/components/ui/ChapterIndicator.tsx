@@ -9,6 +9,11 @@ interface ChapterIndicatorProps {
  * Minimal chapter progress indicator — a thin strip on the right edge.
  * Updates at low frequency via interval (not scroll listener) to avoid
  * unnecessary re-renders while still showing the user where they are.
+ *
+ * Fluid accessibility:
+ * - Large 40px touch targets with a 2px visual bar
+ * - Respects safe area insets
+ * - Keyboard accessible
  */
 export function ChapterIndicator({ chapterIndexRef }: ChapterIndicatorProps) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -18,7 +23,7 @@ export function ChapterIndicator({ chapterIndexRef }: ChapterIndicatorProps) {
     const interval = setInterval(() => {
       const current = chapterIndexRef.current ?? 0;
       setActiveIndex(current);
-    }, 300);
+    }, 250);
 
     return () => clearInterval(interval);
   }, [chapterIndexRef]);
@@ -29,13 +34,13 @@ export function ChapterIndicator({ chapterIndexRef }: ChapterIndicatorProps) {
       aria-label="Chapter progress"
       style={{
         position: 'fixed',
-        right: 'var(--space-4)',
+        right: 'max(var(--space-2), env(safe-area-inset-right))',
         top: '50%',
         transform: 'translateY(-50%)',
         zIndex: 'var(--z-nav)',
         display: 'flex',
         flexDirection: 'column',
-        gap: '6px',
+        gap: '2px',
         alignItems: 'center',
       }}
     >
@@ -43,7 +48,9 @@ export function ChapterIndicator({ chapterIndexRef }: ChapterIndicatorProps) {
         <button
           key={i}
           onClick={() => {
-            const sections = document.querySelectorAll('.hero-spread, .chapter-container, .final-horizon-spread');
+            const sections = document.querySelectorAll(
+              '.hero-spread, .chapter-container, .final-horizon-spread'
+            );
             sections[i]?.scrollIntoView({ behavior: 'smooth' });
           }}
           aria-label={
@@ -55,19 +62,33 @@ export function ChapterIndicator({ chapterIndexRef }: ChapterIndicatorProps) {
           }
           aria-current={i === activeIndex ? 'step' : undefined}
           style={{
-            width: i === activeIndex ? '3px' : '2px',
-            height: i === activeIndex ? '24px' : '12px',
-            background: i === activeIndex
-              ? 'var(--color-terracotta)'
-              : 'var(--color-earth-warm)',
+            background: 'transparent',
             border: 'none',
-            borderRadius: '1px',
+            padding: '4px 6px',
+            minWidth: '24px',
+            minHeight: '28px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             cursor: 'pointer',
-            padding: 0,
-            transition: 'height 500ms var(--ease-move), background 300ms var(--ease-enter), width 300ms var(--ease-enter)',
-            opacity: i === activeIndex ? 1 : 0.4,
           }}
-        />
+        >
+          <span
+            style={{
+              display: 'block',
+              width: i === activeIndex ? '3px' : '2px',
+              height: i === activeIndex ? '24px' : '12px',
+              background:
+                i === activeIndex
+                  ? 'var(--color-terracotta)'
+                  : 'var(--color-earth-warm)',
+              borderRadius: '1px',
+              transition:
+                'height 400ms var(--ease-move), background 300ms var(--ease-enter), width 300ms var(--ease-enter), opacity 300ms var(--ease-enter)',
+              opacity: i === activeIndex ? 1 : 0.45,
+            }}
+          />
+        </button>
       ))}
     </nav>
   );

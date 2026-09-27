@@ -13,13 +13,15 @@ interface CameraWaypoint {
 }
 
 /**
- * Directorial Cinematic Camera Rig
+ * Directorial Cinematic Camera Rig with Fluid Aspect Adaptation
  * 
- * Implements:
- * - Specific art-directed shot composition per chapter
- * - Foreground framing with depth and parallax
- * - Smooth dolly movement that reveals: reveal -> approach -> pass -> reveal again
- * - Intentional negative space framing for the editorial content
+ * Implements Master Requirements 9 & 10:
+ * "FLUID 3D CAMERA:
+ * Camera composition must react to:
+ * viewport width, viewport height, aspect ratio, orientation, current beat.
+ * For wide screens: allow cinematic lateral compositions.
+ * For portrait screens: prioritize vertical depth and subject clarity.
+ * For intermediate aspect ratios: smoothly interpolate between these states."
  */
 const CAMERA_WAYPOINTS: CameraWaypoint[] = [
   // 0. Intro: Wide dawn vista, tree & path framed to the right, calm negative space on left
@@ -62,16 +64,39 @@ export function ScrollCamera({ scrollProgress }: ScrollCameraProps) {
     };
   }, []);
 
-  useFrame(({ camera }) => {
+  useFrame(({ camera, size }) => {
     const p = Math.max(0, Math.min(1, scrollProgress.current ?? 0));
 
     // Sample the cinematic spline path
     posCurve.getPointAt(p, targetPos.current);
     lookAtCurve.getPointAt(p, targetLookAt.current);
 
+    // Continuous aspect ratio adaptation:
+    // Aspect ratio < 0.6 = narrow phone portrait, ~1.0 = tablet portrait/square, >= 1.6 = wide desktop
+    const aspect = size.width / Math.max(1, size.height);
+    const aspectWeight = THREE.MathUtils.clamp((aspect - 0.55) / (1.55 - 0.55), 0, 1);
+
+    // 1. Fluid lateral compression: On narrow portrait screens, compress lateral displacement towards center
+    // so focal 3D landmarks remain visible and don't collide with text
+    const lateralScale = THREE.MathUtils.lerp(0.42, 1.0, aspectWeight);
+    targetPos.current.x *= lateralScale;
+    targetLookAt.current.x *= lateralScale;
+
+    // 2. Fluid vertical perspective: elevate camera slightly in portrait view for enhanced ground depth
+    const elevationLift = THREE.MathUtils.lerp(0.85, 0.0, aspectWeight);
+    targetPos.current.y += elevationLift;
+
+    // 3. Fluid FOV adaptation: on portrait screens, expand vertical FOV so horizontal coverage does not pinch
+    const baseFov = 45;
+    const targetFov = THREE.MathUtils.lerp(58, baseFov, aspectWeight);
+    if (camera instanceof THREE.PerspectiveCamera && Math.abs(camera.fov - targetFov) > 0.05) {
+      camera.fov = THREE.MathUtils.lerp(camera.fov, targetFov, 0.05);
+      camera.updateProjectionMatrix();
+    }
+
     // Subtle natural head movement (breathing camera feel)
-    const microSwayX = Math.sin(p * 24) * 0.08;
-    const microSwayY = Math.cos(p * 18) * 0.04;
+    const microSwayX = Math.sin(p * 24) * 0.06 * aspectWeight;
+    const microSwayY = Math.cos(p * 18) * 0.03;
     targetPos.current.x += microSwayX;
     targetPos.current.y += microSwayY;
 

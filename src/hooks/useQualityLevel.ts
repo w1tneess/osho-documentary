@@ -1,32 +1,63 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export type QualityLevel = 'high' | 'medium' | 'low';
 
 /**
- * Adaptive quality detection.
- * - High: desktop with good GPU
- * - Medium: tablet or less powerful desktop
- * - Low: mobile or reduced-motion preference
+ * Capability-first quality detection.
+ * Adheres to Master Directive:
+ * "DEVICE CAPABILITY > DEVICE LABEL.
+ * Do not assume: desktop = powerful, mobile = weak.
+ * A powerful phone should not unnecessarily receive the lowest-quality scene.
+ * An old desktop should not automatically receive maximum quality."
  */
-export function useQualityLevel(): QualityLevel {
-  const [quality, setQuality] = useState<QualityLevel>('medium');
+export function detectQuality(): QualityLevel {
+  if (typeof window === 'undefined') return 'medium';
 
-  useEffect(() => {
-    const isMobile = window.innerWidth < 768;
-    const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const hardwareConcurrency = navigator.hardwareConcurrency || 2;
-    // @ts-expect-error — deviceMemory is not in all browsers
-    const deviceMemory = navigator.deviceMemory || 4;
+  // Respect reduced motion preference
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return 'low';
+  }
 
-    if (reducedMotion || isMobile || deviceMemory < 4 || hardwareConcurrency <= 2) {
-      setQuality('low');
-    } else if (isTablet || hardwareConcurrency <= 4) {
-      setQuality('medium');
-    } else {
-      setQuality('high');
+  const hardwareConcurrency = navigator.hardwareConcurrency || 4;
+  // @ts-expect-error — deviceMemory is available in modern Chromium/Blink browsers
+  const deviceMemory = navigator.deviceMemory || 4;
+
+  // WebGL GPU capability probe
+  let isReliableGpu = true;
+  try {
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+    if (!gl) return 'low';
+
+    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+    if (debugInfo) {
+      const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL).toLowerCase();
+      if (
+        renderer.includes('swiftshader') ||
+        renderer.includes('llvmpipe') ||
+        renderer.includes('software') ||
+        renderer.includes('basic render')
+      ) {
+        isReliableGpu = false;
+      }
     }
-  }, []);
+  } catch {
+    return 'low';
+  }
 
+  if (!isReliableGpu || deviceMemory < 3 || hardwareConcurrency <= 2) {
+    return 'low';
+  }
+
+  // Tier 1: Modern multi-core processors (phones, tablets, and desktops alike)
+  if (deviceMemory >= 6 && hardwareConcurrency >= 6) {
+    return 'high';
+  }
+
+  return 'medium';
+}
+
+export function useQualityLevel(): QualityLevel {
+  const [quality] = useState<QualityLevel>(() => detectQuality());
   return quality;
 }

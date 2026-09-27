@@ -77,10 +77,18 @@
   --space-32:  8rem;      /* 128px */
   --space-40:  10rem;     /* 160px */
 
-  /* ─── Layout ─── */
+  /* ─── Layout & Fluid Spacing ─── */
   --content-max-width:  42rem;
   --content-wide:       56rem;
-  --page-gutter:        clamp(1.5rem, 4vw, 4rem);
+  --reading-measure:    64ch;
+  --page-gutter:        clamp(1.25rem, 3.8vw, 4.5rem);
+  --spread-padding-y:   clamp(2.5rem, 6vh, 6.5rem);
+
+  /* ─── Safe Areas (notch, dynamic island, gesture bar) ─── */
+  --safe-top:           env(safe-area-inset-top, 0px);
+  --safe-right:         env(safe-area-inset-right, 0px);
+  --safe-bottom:        env(safe-area-inset-bottom, 0px);
+  --safe-left:          env(safe-area-inset-left, 0px);
 
   /* ─── Easing (from ui-animation skill) ─── */
   --ease-enter:     cubic-bezier(0.22, 1, 0.36, 1);
