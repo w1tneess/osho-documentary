@@ -697,3 +697,553 @@ p {
     transform: none;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   APPLE HIG FUNCTIONAL LAYER: LIQUID GLASS NAVIGATION & CONTROLS
+   ───────────────────────────────────────────────────────────── */
+
+/* Scroll offsets so anchored chapter jumps never hide under floating header */
+.hero-spread,
+.chapter-container,
+.final-horizon-spread,
+.scholarly-references {
+  scroll-margin-top: clamp(4.5rem, 9vh, 6.5rem);
+}
+
+/* ─── Apple HIG: Focus Rings ─── */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ─── 1. Floating Top Navigation Capsule ─── */
+.nav-capsule-wrapper {
+  position: fixed;
+  top: calc(var(--safe-top) + clamp(0.75rem, 1.8vw, 1.25rem));
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: var(--z-nav);
+  padding: 0 var(--page-gutter);
+}
+
+.nav-capsule {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0.35rem 0.5rem 0.35rem 0.85rem;
+  background: var(--glass-bg-regular);
+  backdrop-filter: var(--glass-blur-regular);
+  -webkit-backdrop-filter: var(--glass-blur-regular);
+  border: var(--glass-border);
+  border-radius: var(--glass-radius-pill);
+  box-shadow: var(--glass-shadow);
+  max-width: min(100%, 720px);
+  transition: background var(--transition-base), border var(--transition-base), box-shadow var(--transition-base);
+}
+
+.nav-capsule:hover {
+  background: var(--glass-bg-hover);
+}
+
+/* Brand Monogram */
+.nav-brand-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.5rem;
+  min-height: 36px;
+  border-radius: var(--glass-radius-pill);
+  color: var(--vibrant-label-primary);
+  font-family: var(--font-ui);
+  transition: opacity var(--transition-fast);
+}
+
+.nav-brand-btn:hover {
+  opacity: 0.75;
+}
+
+.nav-brand-title {
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: var(--tracking-ultra);
+  color: var(--color-earth-deep);
+}
+
+.nav-brand-sep {
+  opacity: 0.3;
+  font-size: 0.75rem;
+}
+
+.nav-brand-sub {
+  font-size: 0.6875rem;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-earth-warm);
+  font-weight: 500;
+}
+
+/* Center Live Chapter Pill */
+.nav-chapter-pill {
+  background: rgba(26, 20, 16, 0.04);
+  border: 1px solid rgba(26, 20, 16, 0.06);
+  border-radius: var(--glass-radius-pill);
+  padding: 0.35rem 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 34px;
+  max-width: 280px;
+  overflow: hidden;
+  transition: background var(--transition-fast), border var(--transition-fast);
+}
+
+.nav-chapter-pill:hover {
+  background: rgba(26, 20, 16, 0.08);
+  border-color: rgba(26, 20, 16, 0.12);
+}
+
+.nav-chapter-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-terracotta);
+  flex-shrink: 0;
+}
+
+.nav-chapter-text {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-earth-deep);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Right Action Buttons Group */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.nav-action-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.65rem;
+  min-height: 36px;
+  border-radius: var(--glass-radius-pill);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-earth-mid);
+  transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.nav-action-btn:hover {
+  background: rgba(26, 20, 16, 0.06);
+  color: var(--color-earth-deep);
+}
+
+.nav-action-btn:active {
+  transform: scale(0.97);
+}
+
+.nav-drawer-btn {
+  background: rgba(184, 92, 58, 0.1);
+  color: var(--color-terracotta);
+}
+
+.nav-drawer-btn:hover {
+  background: rgba(184, 92, 58, 0.16);
+  color: var(--color-terracotta);
+}
+
+/* Audio Waveform Bars */
+.nav-audio-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+  width: 12px;
+}
+
+.audio-bar {
+  display: block;
+  width: 2px;
+  background: currentColor;
+  border-radius: 1px;
+  height: 4px;
+  transition: height 250ms ease;
+}
+
+.nav-audio-btn.is-playing .bar-1 {
+  animation: audioWave 1.2s ease-in-out infinite alternate;
+}
+
+.nav-audio-btn.is-playing .bar-2 {
+  animation: audioWave 1.2s ease-in-out 0.25s infinite alternate;
+}
+
+.nav-audio-btn.is-playing .bar-3 {
+  animation: audioWave 1.2s ease-in-out 0.5s infinite alternate;
+}
+
+@keyframes audioWave {
+  0% { height: 3px; }
+  50% { height: 12px; }
+  100% { height: 5px; }
+}
+
+@media (max-width: 540px) {
+  .nav-brand-sub,
+  .nav-brand-sep {
+    display: none;
+  }
+  .nav-chapter-pill {
+    max-width: 130px;
+  }
+  .nav-btn-label {
+    display: none;
+  }
+  .nav-action-btn {
+    padding: 0.4rem;
+    min-width: 36px;
+    justify-content: center;
+  }
+}
+
+/* ─── 2. Apple HIG Table of Contents Drawer ─── */
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 20, 16, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: var(--z-drawer);
+  display: flex;
+  justify-content: flex-end;
+  animation: fadeIn 250ms var(--ease-enter);
+}
+
+.drawer-panel {
+  width: min(100%, 420px);
+  height: 100%;
+  background: var(--glass-bg-regular);
+  backdrop-filter: var(--glass-blur-regular);
+  -webkit-backdrop-filter: var(--glass-blur-regular);
+  border-left: var(--glass-border);
+  box-shadow: var(--glass-shadow-drawer);
+  display: flex;
+  flex-direction: column;
+  animation: slideDrawer 360ms var(--ease-drawer);
+  padding: calc(var(--safe-top) + 1.5rem) 1.5rem calc(var(--safe-bottom) + 1.5rem) 1.75rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDrawer {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.drawer-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid rgba(26, 20, 16, 0.08);
+  margin-bottom: var(--space-4);
+}
+
+.drawer-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: var(--tracking-ultra);
+  color: var(--color-terracotta);
+  font-weight: 600;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: var(--space-1);
+}
+
+.drawer-title {
+  font-family: var(--font-editorial);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--color-earth-deep);
+  margin: 0;
+}
+
+.drawer-close-btn {
+  background: rgba(26, 20, 16, 0.06);
+  border: none;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-earth-deep);
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.drawer-close-btn:hover {
+  background: rgba(26, 20, 16, 0.12);
+}
+
+.drawer-close-btn:active {
+  transform: scale(0.94);
+}
+
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-right: 0.25rem;
+}
+
+.drawer-row {
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius-md);
+  text-align: left;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.drawer-row:hover {
+  background: rgba(26, 20, 16, 0.05);
+  border-color: rgba(26, 20, 16, 0.06);
+}
+
+.drawer-row.is-active {
+  background: rgba(184, 92, 58, 0.08);
+  border-color: rgba(184, 92, 58, 0.2);
+}
+
+.drawer-row-badge {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--color-earth-warm);
+  min-width: 32px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-wide);
+}
+
+.drawer-row.is-active .drawer-row-badge {
+  color: var(--color-terracotta);
+}
+
+.drawer-row-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.drawer-row-title {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-earth-deep);
+  line-height: 1.25;
+}
+
+.drawer-row-sub {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--color-earth-light);
+  line-height: 1.2;
+}
+
+.drawer-active-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-terracotta);
+  flex-shrink: 0;
+}
+
+.drawer-footer {
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(26, 20, 16, 0.08);
+  margin-top: var(--space-4);
+}
+
+.drawer-footer-text {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  color: var(--color-earth-light);
+  display: block;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── 3. Apple HIG Chapter Progression Rail ─── */
+.chapter-rail-container {
+  position: fixed;
+  right: max(0.75rem, env(safe-area-inset-right));
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: var(--z-nav);
+  pointer-events: none;
+}
+
+.chapter-rail-glass {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 4px;
+  background: var(--glass-bg-clear);
+  backdrop-filter: var(--glass-blur-clear);
+  -webkit-backdrop-filter: var(--glass-blur-clear);
+  border: var(--glass-border);
+  border-radius: var(--glass-radius-pill);
+  box-shadow: 0 4px 20px rgba(26, 20, 16, 0.06);
+}
+
+.rail-item-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rail-step-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  min-width: 24px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: transform var(--transition-fast);
+}
+
+.rail-step-btn:hover {
+  transform: scale(1.15);
+}
+
+.rail-step-pill {
+  display: block;
+  width: 2px;
+  height: 12px;
+  background: var(--color-earth-warm);
+  border-radius: 1px;
+  opacity: 0.45;
+  transition: height 350ms var(--ease-spring), width 300ms var(--ease-enter), background 300ms var(--ease-enter), opacity 300ms var(--ease-enter);
+}
+
+.rail-step-btn.is-active .rail-step-pill {
+  width: 3px;
+  height: 24px;
+  background: var(--color-terracotta);
+  opacity: 1;
+}
+
+/* Floating Tooltip */
+.rail-tooltip {
+  position: absolute;
+  right: calc(100% + 10px);
+  white-space: nowrap;
+  background: var(--glass-bg-regular);
+  backdrop-filter: var(--glass-blur-regular);
+  -webkit-backdrop-filter: var(--glass-blur-regular);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--glass-radius-pill);
+  pointer-events: none;
+  animation: fadeIn 150ms var(--ease-enter);
+}
+
+.rail-tooltip-text {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--color-earth-deep);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 640px) {
+  .chapter-rail-container {
+    display: none;
+  }
+}
+
+/* ─── 4. Reading HUD Capsule ─── */
+.reading-hud {
+  position: fixed;
+  bottom: calc(var(--safe-bottom) + clamp(0.75rem, 2vw, 1.5rem));
+  left: max(var(--page-gutter), env(safe-area-inset-left));
+  z-index: var(--z-nav);
+  pointer-events: none;
+  animation: fadeIn 300ms var(--ease-enter);
+}
+
+.reading-hud-glass {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.28rem 0.65rem;
+  background: var(--glass-bg-clear);
+  backdrop-filter: var(--glass-blur-clear);
+  -webkit-backdrop-filter: var(--glass-blur-clear);
+  border: var(--glass-border);
+  border-radius: var(--glass-radius-pill);
+  box-shadow: 0 4px 16px rgba(26, 20, 16, 0.05);
+}
+
+.reading-hud-num {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-earth-deep);
+  font-variant-numeric: tabular-nums;
+}
+
+.reading-hud-sep {
+  opacity: 0.35;
+  font-size: 0.6875rem;
+}
+
+.reading-hud-label {
+  font-family: var(--font-ui);
+  font-size: 0.625rem;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-earth-warm);
+  font-weight: 500;
+}
+

@@ -6,17 +6,19 @@ interface ChapterIndicatorProps {
 }
 
 /**
- * Minimal chapter progress indicator — a thin strip on the right edge.
- * Updates at low frequency via interval (not scroll listener) to avoid
- * unnecessary re-renders while still showing the user where they are.
- *
- * Fluid accessibility:
- * - Large 40px touch targets with a 2px visual bar
- * - Respects safe area insets
- * - Keyboard accessible
+ * Apple HIG Compliant Chapter Rail Indicator
+ * 
+ * Design Elements:
+ * - Liquid Glass vertical capsule docked to the right edge
+ * - Micro-typography tooltips with chapter name on hover/focus
+ * - Smooth physical interpolation of active state
+ * - Touch targets >= 44x28pt with accessible ARIA labels
+ * - Hides smoothly on ultra-narrow mobile viewports to prevent content occlusion
  */
 export function ChapterIndicator({ chapterIndexRef }: ChapterIndicatorProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   const totalChapters = documentary.chapters.length + 2; // +intro +epilogue
 
   useEffect(() => {
@@ -28,68 +30,54 @@ export function ChapterIndicator({ chapterIndexRef }: ChapterIndicatorProps) {
     return () => clearInterval(interval);
   }, [chapterIndexRef]);
 
+  const getLabel = (i: number) => {
+    if (i === 0) return 'Prologue: Introduction';
+    if (i === totalChapters - 1) return 'Epilogue: Dual Legacy';
+    const ch = documentary.chapters[i - 1];
+    return ch ? `0${ch.index} · ${ch.title}` : `Chapter ${i}`;
+  };
+
   return (
     <nav
-      className="chapter-indicator"
-      aria-label="Chapter progress"
-      style={{
-        position: 'fixed',
-        right: 'max(var(--space-2), env(safe-area-inset-right))',
-        top: '50%',
-        transform: 'translateY(-50%)',
-        zIndex: 'var(--z-nav)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '2px',
-        alignItems: 'center',
-      }}
+      className="chapter-rail-container"
+      aria-label="Documentary chapter progression"
     >
-      {Array.from({ length: totalChapters }, (_, i) => (
-        <button
-          key={i}
-          onClick={() => {
-            const sections = document.querySelectorAll(
-              '.hero-spread, .chapter-container, .final-horizon-spread'
-            );
-            sections[i]?.scrollIntoView({ behavior: 'smooth' });
-          }}
-          aria-label={
-            i === 0
-              ? 'Introduction'
-              : i === totalChapters - 1
-              ? 'Conclusion'
-              : `Chapter ${i}`
-          }
-          aria-current={i === activeIndex ? 'step' : undefined}
-          style={{
-            background: 'transparent',
-            border: 'none',
-            padding: '4px 6px',
-            minWidth: '24px',
-            minHeight: '28px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-          }}
-        >
-          <span
-            style={{
-              display: 'block',
-              width: i === activeIndex ? '3px' : '2px',
-              height: i === activeIndex ? '24px' : '12px',
-              background:
-                i === activeIndex
-                  ? 'var(--color-terracotta)'
-                  : 'var(--color-earth-warm)',
-              borderRadius: '1px',
-              transition:
-                'height 400ms var(--ease-move), background 300ms var(--ease-enter), width 300ms var(--ease-enter), opacity 300ms var(--ease-enter)',
-              opacity: i === activeIndex ? 1 : 0.45,
-            }}
-          />
-        </button>
-      ))}
+      <div className="chapter-rail-glass">
+        {Array.from({ length: totalChapters }, (_, i) => {
+          const isActive = i === activeIndex;
+          const isHovered = i === hoveredIndex;
+          const label = getLabel(i);
+
+          return (
+            <div key={i} className="rail-item-wrapper">
+              <button
+                className={`rail-step-btn ${isActive ? 'is-active' : ''}`}
+                onClick={() => {
+                  const sections = document.querySelectorAll(
+                    '.hero-spread, .chapter-container, .final-horizon-spread, .scholarly-references'
+                  );
+                  sections[i]?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                onFocus={() => setHoveredIndex(i)}
+                onBlur={() => setHoveredIndex(null)}
+                aria-label={label}
+                aria-current={isActive ? 'step' : undefined}
+              >
+                <span className="rail-step-pill" />
+              </button>
+
+              {/* Apple HIG Floating Tooltip */}
+              {isHovered && (
+                <div className="rail-tooltip" role="tooltip">
+                  <span className="rail-tooltip-text">{label}</span>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
     </nav>
   );
 }

@@ -9,35 +9,42 @@ import { HeroSection } from './components/documentary/HeroSection';
 import { ChapterSection } from './components/documentary/ChapterSection';
 import { EpilogueSection } from './components/documentary/EpilogueSection';
 import { ReferencesSection } from './components/documentary/ReferencesSection';
+import { NavigationHeader } from './components/ui/NavigationHeader';
+import { ChapterDrawer } from './components/ui/ChapterDrawer';
 import { ChapterIndicator } from './components/ui/ChapterIndicator';
+import { ReadingHUD } from './components/ui/ReadingHUD';
 import './styles/global.css';
 
 /**
  * OSHO DOCUMENTARY — Main Application Shell
  * 
- * Architecture: Split DOM (semantic content) + Persistent R3F Canvas (3D environment).
- * Communication: normalized scroll progress via refs (no per-frame React state).
+ * Architecture:
+ * - Content Layer: Semantic documentary spreads + persistent 3D Canvas
+ * - Functional Layer (Apple HIG): Liquid Glass navigation capsule, slide-over drawer,
+ *   subtle ambient soundscape engine, and rail indicator.
  */
 export default function App() {
-  const [webglSupported, setWebglSupported] = useState(true);
+  const [webglSupported] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    try {
+      const canvas = document.createElement('canvas');
+      return !!(canvas.getContext('webgl2') || canvas.getContext('webgl'));
+    } catch {
+      return false;
+    }
+  });
+
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const quality = useQualityLevel();
   const { progressRef, chapterIndexRef } = useScrollProgress(TOTAL_SCROLL_PAGES);
   const documentaryRef = useRevealObserver();
 
-  // WebGL support detection
+  // Synchronize webgl-fallback class to HTML root if needed
   useEffect(() => {
-    try {
-      const canvas = document.createElement('canvas');
-      const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
-      if (!gl) {
-        setWebglSupported(false);
-        document.documentElement.classList.add('webgl-fallback');
-      }
-    } catch {
-      setWebglSupported(false);
+    if (!webglSupported) {
       document.documentElement.classList.add('webgl-fallback');
     }
-  }, []);
+  }, [webglSupported]);
 
   return (
     <>
@@ -49,10 +56,26 @@ export default function App() {
       {/* Film grain overlay */}
       <div className="grain-overlay" aria-hidden="true" />
 
-      {/* Chapter progress indicator */}
+      {/* ─── Apple HIG Functional Layer: Floating Navigation Capsule ─── */}
+      <NavigationHeader
+        chapterIndexRef={chapterIndexRef}
+        onOpenDrawer={() => setIsDrawerOpen(true)}
+      />
+
+      {/* ─── Apple HIG Functional Layer: Chapter Progression Rail ─── */}
       <ChapterIndicator chapterIndexRef={chapterIndexRef} />
 
-      {/* Documentary content layer */}
+      {/* ─── Apple HIG Functional Layer: Reading HUD ─── */}
+      <ReadingHUD progressRef={progressRef} />
+
+      {/* ─── Apple HIG Functional Layer: Table of Contents Drawer ─── */}
+      <ChapterDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        chapterIndexRef={chapterIndexRef}
+      />
+
+      {/* ─── Content Layer: Semantic Documentary Spreads ─── */}
       <main className="documentary-layer" ref={documentaryRef}>
         {/* Hero / Introduction */}
         <HeroSection blocks={documentary.intro} />

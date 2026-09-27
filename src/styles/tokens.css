@@ -41,6 +41,7 @@
   /* ─── Typography ─── */
   --font-editorial:   'PP Editorial New', 'Playfair Display', 'Georgia', serif;
   --font-body:        'Instrument Sans', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-ui:          -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", "Instrument Sans", system-ui, sans-serif;
   --font-mono:        'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
 
   /* Type Scale — fluid with clamp */
@@ -90,18 +91,42 @@
   --safe-bottom:        env(safe-area-inset-bottom, 0px);
   --safe-left:          env(safe-area-inset-left, 0px);
 
-  /* ─── Easing (from ui-animation skill) ─── */
+  /* ─── Apple HIG Functional Layer: Liquid Glass ─── */
+  --glass-bg-regular:       rgba(247, 243, 235, 0.78);
+  --glass-bg-clear:         rgba(247, 243, 235, 0.55);
+  --glass-bg-hover:         rgba(247, 243, 235, 0.92);
+  --glass-bg-active:        rgba(238, 230, 218, 0.96);
+  --glass-blur-regular:     blur(28px) saturate(160%);
+  --glass-blur-clear:       blur(16px) saturate(140%);
+  --glass-border:           1px solid rgba(255, 255, 255, 0.65);
+  --glass-border-subtle:    1px solid rgba(26, 20, 16, 0.08);
+  --glass-shadow:           0 12px 36px -4px rgba(26, 20, 16, 0.09), 0 2px 6px -1px rgba(26, 20, 16, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  --glass-shadow-drawer:    -12px 0 40px rgba(26, 20, 16, 0.12), -1px 0 0 rgba(255, 255, 255, 0.7);
+  --glass-radius-pill:      9999px;
+  --glass-radius-card:      18px;
+  --glass-radius-panel:     24px;
+
+  /* ─── Apple HIG Vibrant Text Tokens on Glass ─── */
+  --vibrant-label-primary:   #1a1410;
+  --vibrant-label-secondary: #4a3c2a;
+  --vibrant-label-tertiary:  #7a6b55;
+  --vibrant-label-quaternary:#a89985;
+  --vibrant-accent:          #b85c3a;
+
+  /* ─── Easing (Apple Spring-like curves) ─── */
   --ease-enter:     cubic-bezier(0.22, 1, 0.36, 1);
   --ease-move:      cubic-bezier(0.25, 1, 0.5, 1);
   --ease-expo-out:  cubic-bezier(0.19, 1, 0.22, 1);
-  --ease-drawer:    cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-drawer:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring:    cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* ─── Borders ─── */
   --border-thin:     1px solid rgba(26, 20, 16, 0.1);
   --border-editorial: 1px solid rgba(26, 20, 16, 0.15);
   --radius-none:     0;
-  --radius-sm:       3px;
-  --radius-md:       6px;
+  --radius-sm:       4px;
+  --radius-md:       8px;
+  --radius-lg:       14px;
 
   /* ─── Shadows (natural, soft) ─── */
   --shadow-subtle:   0 1px 3px rgba(26, 20, 16, 0.06);
@@ -111,14 +136,28 @@
   --z-canvas:        0;
   --z-content:       10;
   --z-overlay:       20;
-  --z-nav:           30;
-  --z-modal:         40;
+  --z-nav:           50;
+  --z-drawer:        60;
+  --z-modal:         70;
 
   /* ─── Transitions ─── */
   --transition-fast:   150ms var(--ease-enter);
   --transition-base:   250ms var(--ease-enter);
   --transition-slow:   500ms var(--ease-move);
-  --transition-reveal:  800ms var(--ease-expo-out);
+  --transition-drawer: 420ms var(--ease-drawer);
+  --transition-reveal: 800ms var(--ease-expo-out);
+}
+
+/* ─── Apple HIG: Reduced Transparency ─── */
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass-bg-regular:   #ede4d4;
+    --glass-bg-clear:     #ede4d4;
+    --glass-bg-hover:     #e4dac8;
+    --glass-blur-regular: none;
+    --glass-blur-clear:   none;
+    --glass-border:       1px solid rgba(26, 20, 16, 0.2);
+  }
 }
 
 /* ─── Reduced Motion ─── */
@@ -127,6 +166,7 @@
     --transition-fast:   0ms;
     --transition-base:   0ms;
     --transition-slow:   0ms;
+    --transition-drawer: 0ms;
     --transition-reveal: 0ms;
   }
 }
