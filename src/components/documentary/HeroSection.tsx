@@ -6,69 +6,65 @@ interface HeroSectionProps {
 }
 
 /**
- * The opening hero section — the first viewport of the documentary.
- * Full-height, centered, cinematic. Sets the editorial tone.
+ * Opening Cinematic Composition
+ * 
+ * Replaces the centered static card with an asymmetric, wide publication layout.
+ * The 3D world (dawn mountains, distant horizon, stone terrace, winding path)
+ * provides the visual atmosphere and depth.
  */
 export function HeroSection({ blocks }: HeroSectionProps) {
+  // Extract major content from intro blocks
+  const headerBlock = blocks[0];
+  const ledeBlock = blocks[1];
+  const narrativeBlocks = blocks.slice(2);
+
   return (
     <section
-      className="chapter-section"
+      className="hero-spread"
       id="hero"
-      aria-label="Introduction"
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-      }}
+      aria-label="Introduction: Osho Rajneesh Documentary"
     >
-      <div style={{ maxWidth: 'var(--content-max-width)' }}>
-        <div className="text-veil" style={{ textAlign: 'center' }}>
-          {blocks.map((block, i) => (
+      <div className="hero-composition">
+        {/* Editorial Eyebrow */}
+        <span className="hero-eyebrow">
+          AN INTERACTIVE DOCUMENTARY INVESTIGATION
+        </span>
+
+        {/* Cinematic Title Group */}
+        <div className="hero-title-group">
+          <h1 className="hero-title-main">OSHO</h1>
+          <span className="hero-title-sub">RAJNEESH</span>
+        </div>
+
+        {/* Subtitle / Thesis */}
+        <p className="hero-subtitle">
+          {headerBlock && 'body' in headerBlock && headerBlock.body
+            ? headerBlock.body
+            : 'Philosophy, Outcomes, and the Truth Behind the Movement'}
+        </p>
+
+        {/* Restrained Editorial Lede */}
+        {ledeBlock && 'body' in ledeBlock && (
+          <p className="hero-lede">
+            {ledeBlock.body}
+          </p>
+        )}
+
+        {/* Remaining narrative introduction blocks rendered cleanly */}
+        <div style={{ marginTop: 'var(--space-6)', maxWidth: '44rem' }}>
+          {narrativeBlocks.map((block, i) => (
             <BlockRenderer
               key={`intro-block-${i}`}
               block={block}
-              delay={i * 120}
+              delay={i * 80}
             />
           ))}
-          <div className="reveal" style={{ transitionDelay: '800ms' }}>
-            <div style={{
-              marginTop: 'var(--space-12)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 'var(--space-2)',
-            }}>
-              <span style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: 'var(--text-caption)',
-                color: 'var(--color-earth-warm)',
-                letterSpacing: 'var(--tracking-wide)',
-              }}>
-                Scroll to begin
-              </span>
-              <svg
-                width="20"
-                height="28"
-                viewBox="0 0 20 28"
-                fill="none"
-                style={{ opacity: 0.5 }}
-                aria-hidden="true"
-              >
-                <rect x="1" y="1" width="18" height="26" rx="9" stroke="currentColor" strokeWidth="1.5" />
-                <circle cx="10" cy="8" r="2" fill="currentColor">
-                  <animate
-                    attributeName="cy"
-                    values="8;16;8"
-                    dur="2s"
-                    repeatCount="indefinite"
-                  />
-                </circle>
-              </svg>
-            </div>
-          </div>
+        </div>
+
+        {/* Restrained Scroll Prompt */}
+        <div className="hero-scroll-cue reveal" style={{ marginTop: 'var(--space-8)' }}>
+          <div className="hero-scroll-line" />
+          <span>SCROLL TO ENTER THE JOURNEY</span>
         </div>
       </div>
     </section>

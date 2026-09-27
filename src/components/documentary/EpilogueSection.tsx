@@ -6,31 +6,37 @@ interface EpilogueSectionProps {
 }
 
 /**
- * The concluding section — brings the narrative full circle.
- * The "final horizon" that should feel earned (per DESIGN.md).
+ * Epilogue Section: The Final Horizon
+ * 
+ * Replaces the card container with an expansive, intentional horizon composition:
+ * - Huge negative space allowing the 3D infinite plain and evening glow to breathe
+ * - Minimal, quiet, profound editorial typography
+ * - Space to reflect
  */
 export function EpilogueSection({ blocks }: EpilogueSectionProps) {
   return (
     <section
-      className="chapter-section"
+      className="final-horizon-spread"
       id="epilogue"
-      aria-label="Conclusion"
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-      }}
+      aria-label="Conclusion: The Final Horizon"
     >
-      <div style={{ maxWidth: 'var(--content-max-width)' }}>
-        <div className="text-veil" style={{ textAlign: 'center' }}>
+      <div className="final-horizon-content">
+        <span className="chapter-entry-label reveal" style={{ justifyContent: 'center' }}>
+          FINAL EPILOGUE
+        </span>
+
+        <h2 className="final-horizon-title reveal" style={{ transitionDelay: '100ms' }}>
+          LEGACY & CONTINUATION
+        </h2>
+
+        <div className="chapter-divider-rule reveal" style={{ margin: '0 auto var(--space-8)' }} />
+
+        <div style={{ maxWidth: '44rem', margin: '0 auto', textAlign: 'left' }}>
           {blocks.map((block, i) => (
             <BlockRenderer
               key={`epilogue-block-${i}`}
               block={block}
-              delay={i * 100}
+              delay={i * 90}
             />
           ))}
         </div>

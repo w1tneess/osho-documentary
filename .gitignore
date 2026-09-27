@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.agents/
+source/
+*.md
+!README.md
+*.html
+!index.html
+.oxlintrc.json

@@ -6,8 +6,14 @@ interface BlockRendererProps {
 }
 
 /**
- * Renders a single documentary content block with appropriate styling.
- * Each block type maps to a distinct editorial treatment.
+ * Editorial Publication Block Renderer
+ * 
+ * Implements:
+ * - Unboxed editorial typography
+ * - Quiet metadata tags instead of SaaS pill badges
+ * - Pure negative space quotations (Composition B)
+ * - Typographic analysis eyebrows with left hairline rules
+ * - Integrated minimal timelines (Composition E)
  */
 export function BlockRenderer({ block, delay = 0 }: BlockRendererProps) {
   const style = delay > 0 ? { transitionDelay: `${delay}ms` } : undefined;
@@ -17,23 +23,23 @@ export function BlockRenderer({ block, delay = 0 }: BlockRendererProps) {
       return (
         <div className="reveal" style={style}>
           {block.eyebrow && (
-            <span className="eyebrow">{block.eyebrow}</span>
+            <span className="chapter-entry-label">{block.eyebrow}</span>
           )}
-          {block.eyebrow ? (
-            <h2 style={{ fontSize: 'var(--text-chapter)', marginBottom: 'var(--space-3)' }}>
-              {block.title}
-            </h2>
-          ) : (
-            <h3 style={{ fontSize: 'var(--text-heading)', marginBottom: 'var(--space-3)' }}>
-              {block.title}
-            </h3>
-          )}
+          <h2 style={{
+            fontSize: block.eyebrow ? 'clamp(2rem, 4vw, 3.2rem)' : 'clamp(1.5rem, 2.8vw, 2.4rem)',
+            color: 'var(--color-earth-deep)',
+            marginBottom: 'var(--space-3)',
+            lineHeight: 1.15,
+          }}>
+            {block.title}
+          </h2>
           {block.body && (
             <p style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 'var(--text-subheading)',
-              color: 'var(--color-ink-soft)',
-              fontWeight: 300,
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.875rem',
+              color: 'var(--color-earth-warm)',
+              marginBottom: 'var(--space-6)',
+              letterSpacing: 'var(--tracking-wide)',
             }}>
               {block.body}
             </p>
@@ -44,10 +50,22 @@ export function BlockRenderer({ block, delay = 0 }: BlockRendererProps) {
     case 'paragraph':
       return (
         <div className="reveal" style={style}>
-          <p style={{ marginBottom: 'var(--space-4)' }}>
+          <p style={{
+            fontSize: 'clamp(1rem, 1.15vw, 1.125rem)',
+            lineHeight: 'var(--leading-relaxed)',
+            color: 'var(--color-ink-soft)',
+            marginBottom: 'var(--space-5)',
+          }}>
             {block.body}
-            {block.evidence && (
-              <span className="evidence-badge">{block.evidence}</span>
+            {block.evidence === 'fact' && (
+              <span className="editorial-meta-tag">
+                <span className="meta-dot">▪</span> DOCUMENTED
+              </span>
+            )}
+            {block.evidence === 'analysis' && (
+              <span className="editorial-meta-tag">
+                <span className="meta-dot">▪</span> ANALYSIS
+              </span>
             )}
           </p>
         </div>
@@ -55,30 +73,29 @@ export function BlockRenderer({ block, delay = 0 }: BlockRendererProps) {
 
     case 'quote':
       return (
-        <blockquote className="reveal" style={style}>
-          <p>"{block.text}"</p>
+        <blockquote className="editorial-quote reveal" style={style}>
+          <span className="quote-mark">“</span>
+          <p className="quote-text">{block.text}</p>
           {(block.attribution || block.source) && (
-            <footer style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 'var(--text-caption)',
-              fontStyle: 'normal',
-              color: 'var(--color-earth-warm)',
-              marginTop: 'var(--space-3)',
-            }}>
+            <cite className="quote-cite">
               {block.attribution && <strong>{block.attribution}</strong>}
-              {block.source && <span> — {block.source}</span>}
-            </footer>
+              {block.source && <span>— {block.source}</span>}
+            </cite>
           )}
         </blockquote>
       );
 
     case 'analysis':
       return (
-        <div className="analysis-block reveal" style={style}>
-          {block.label && (
-            <span className="analysis-label">{block.label}</span>
-          )}
-          <p style={{ fontSize: 'var(--text-body)', color: 'var(--color-ink-soft)' }}>
+        <div className="analysis-entry reveal" style={style}>
+          <span className="analysis-eyebrow">
+            {block.label || 'DOCUMENTARY ANALYSIS'}
+          </span>
+          <p style={{
+            fontSize: '1rem',
+            lineHeight: 'var(--leading-relaxed)',
+            color: 'var(--color-earth-deep)',
+          }}>
             {block.body}
           </p>
         </div>
@@ -86,26 +103,18 @@ export function BlockRenderer({ block, delay = 0 }: BlockRendererProps) {
 
     case 'statement':
       return (
-        <div className="reveal" style={style}>
-          <p style={{
-            fontFamily: 'var(--font-editorial)',
-            fontSize: 'var(--text-subheading)',
-            fontWeight: 500,
-            color: 'var(--color-ink)',
-            marginBottom: 'var(--space-4)',
-          }}>
-            {block.body}
-          </p>
+        <div className="editorial-statement reveal" style={style}>
+          <p>{block.body}</p>
         </div>
       );
 
     case 'timeline':
       return (
-        <ul className="timeline reveal" style={style}>
+        <ul className="editorial-timeline reveal" style={style}>
           {block.items.map((item, i) => (
-            <li key={i} className="timeline-item">
-              <span className="timeline-year">{item.year}</span>
-              <span className="timeline-event">{item.event}</span>
+            <li key={i} className="timeline-entry">
+              <span className="timeline-date">{item.year}</span>
+              <p className="timeline-desc">{item.event}</p>
             </li>
           ))}
         </ul>
@@ -113,14 +122,8 @@ export function BlockRenderer({ block, delay = 0 }: BlockRendererProps) {
 
     case 'reference':
       return (
-        <div className="reveal" style={style}>
-          <p style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: 'var(--text-caption)',
-            color: 'var(--color-earth-warm)',
-            lineHeight: 'var(--leading-relaxed)',
-            marginBottom: 'var(--space-2)',
-          }}>
+        <div className="editorial-reference reveal" style={style}>
+          <p>
             {block.citation}
             {block.url && (
               <> — <a href={block.url} target="_blank" rel="noopener noreferrer">{block.url}</a></>

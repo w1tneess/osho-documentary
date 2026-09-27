@@ -2,34 +2,39 @@ import { documentary } from '../../content/documentary';
 import { BlockRenderer } from './BlockRenderer';
 
 /**
- * References section at the very end of the documentary.
- * Minimal styling — mono font, editorial treatment.
+ * References Section: Scholarly Documentation Archive
+ * 
+ * Minimal scholarly typography — mono citations, quiet rules, no card boxes.
  */
 export function ReferencesSection() {
   return (
     <section
-      className="chapter-section"
+      className="editorial-spread spread-center"
       id="references"
-      aria-label="References"
+      aria-label="References and Sources"
       style={{
-        minHeight: 'auto',
-        paddingTop: 'var(--space-16)',
-        paddingBottom: 'var(--space-24)',
+        paddingTop: 'var(--space-24)',
+        paddingBottom: 'var(--space-32)',
       }}
     >
-      <div className="chapter-inner" style={{ maxWidth: 'var(--content-max-width)' }}>
-        <div className="text-veil">
-          <div className="reveal">
-            <span className="eyebrow">Sources</span>
-            <h3 style={{
-              fontSize: 'var(--text-heading)',
-              marginBottom: 'var(--space-8)',
-            }}>
-              References
-            </h3>
-          </div>
+      <div className="editorial-content" style={{ maxWidth: '52rem', textAlign: 'left' }}>
+        <div className="reveal">
+          <span className="chapter-entry-label">
+            VERIFIED DOCUMENTARY SOURCES
+          </span>
+          <h3 style={{
+            fontSize: 'clamp(1.8rem, 3.2vw, 2.8rem)',
+            color: 'var(--color-earth-deep)',
+            marginBottom: 'var(--space-4)',
+          }}>
+            Archival & Legal References
+          </h3>
+          <div className="chapter-divider-rule" />
+        </div>
+
+        <div style={{ marginTop: 'var(--space-8)' }}>
           {documentary.references.map((ref, i) => (
-            <BlockRenderer key={`ref-${i}`} block={ref} delay={i * 30} />
+            <BlockRenderer key={`ref-${i}`} block={ref} delay={i * 40} />
           ))}
         </div>
       </div>

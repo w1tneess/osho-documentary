@@ -43,7 +43,7 @@ export function ChapterIndicator({ chapterIndexRef }: ChapterIndicatorProps) {
         <button
           key={i}
           onClick={() => {
-            const sections = document.querySelectorAll('.chapter-section');
+            const sections = document.querySelectorAll('.hero-spread, .chapter-container, .final-horizon-spread');
             sections[i]?.scrollIntoView({ behavior: 'smooth' });
           }}
           aria-label={
