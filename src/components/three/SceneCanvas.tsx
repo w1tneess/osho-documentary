@@ -7,6 +7,7 @@ import { ForegroundFraming } from '../../scene/environment/ForegroundFraming';
 import { ChapterStructures } from '../../scene/environment/ChapterStructures';
 import { WorldTerrain } from '../../scene/environment/WorldTerrain';
 import { DistantHorizon } from '../../scene/environment/DistantHorizon';
+import { AtmosphericMotes } from '../../scene/environment/AtmosphericMotes';
 import type { QualityLevel } from '../../hooks/useQualityLevel';
 
 interface SceneCanvasProps {
@@ -70,6 +71,9 @@ export function SceneCanvas({ scrollProgress, quality }: SceneCanvasProps) {
 
         {/* Layer 4: Distant Mountain Silhouettes & Horizon */}
         <DistantHorizon quality={quality} />
+
+        {/* Layer 5: Atmospheric Motes & Sun Dust Particles */}
+        <AtmosphericMotes quality={quality} scrollProgress={scrollProgress} />
       </Canvas>
     </div>
   );

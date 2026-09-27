@@ -53,6 +53,7 @@ export function ScrollCamera({ scrollProgress }: ScrollCameraProps) {
   const currentLookAt = useRef(new THREE.Vector3(0, 1.4, -15));
   const targetPos = useRef(new THREE.Vector3());
   const targetLookAt = useRef(new THREE.Vector3());
+  const pointerSmooth = useRef(new THREE.Vector2(0, 0));
 
   // Build interpolation splines for buttery smooth motion
   const { posCurve, lookAtCurve } = useMemo(() => {
@@ -64,7 +65,7 @@ export function ScrollCamera({ scrollProgress }: ScrollCameraProps) {
     };
   }, []);
 
-  useFrame(({ camera, size }) => {
+  useFrame(({ camera, size, pointer }) => {
     const p = Math.max(0, Math.min(1, scrollProgress.current ?? 0));
 
     // Sample the cinematic spline path
@@ -72,12 +73,10 @@ export function ScrollCamera({ scrollProgress }: ScrollCameraProps) {
     lookAtCurve.getPointAt(p, targetLookAt.current);
 
     // Continuous aspect ratio adaptation:
-    // Aspect ratio < 0.6 = narrow phone portrait, ~1.0 = tablet portrait/square, >= 1.6 = wide desktop
     const aspect = size.width / Math.max(1, size.height);
     const aspectWeight = THREE.MathUtils.clamp((aspect - 0.55) / (1.55 - 0.55), 0, 1);
 
     // 1. Fluid lateral compression: On narrow portrait screens, compress lateral displacement towards center
-    // so focal 3D landmarks remain visible and don't collide with text
     const lateralScale = THREE.MathUtils.lerp(0.42, 1.0, aspectWeight);
     targetPos.current.x *= lateralScale;
     targetLookAt.current.x *= lateralScale;
@@ -94,9 +93,21 @@ export function ScrollCamera({ scrollProgress }: ScrollCameraProps) {
       camera.updateProjectionMatrix();
     }
 
-    // Subtle natural head movement (breathing camera feel)
-    const microSwayX = Math.sin(p * 24) * 0.06 * aspectWeight;
-    const microSwayY = Math.cos(p * 18) * 0.03;
+    // 4. Interactive Cursor / Pointer 3D Parallax (premium-frontend-ui & ui-animation)
+    // Smoothly damp pointer coordinates to prevent jitter
+    pointerSmooth.current.x = THREE.MathUtils.lerp(pointerSmooth.current.x, pointer.x, 0.04);
+    pointerSmooth.current.y = THREE.MathUtils.lerp(pointerSmooth.current.y, pointer.y, 0.04);
+
+    const parallaxX = pointerSmooth.current.x * 0.45 * aspectWeight;
+    const parallaxY = pointerSmooth.current.y * 0.22;
+    targetPos.current.x += parallaxX;
+    targetPos.current.y += parallaxY;
+    targetLookAt.current.x += parallaxX * 0.35;
+    targetLookAt.current.y += parallaxY * 0.25;
+
+    // 5. Subtle natural head movement (breathing camera feel)
+    const microSwayX = Math.sin(p * 24) * 0.05 * aspectWeight;
+    const microSwayY = Math.cos(p * 18) * 0.025;
     targetPos.current.x += microSwayX;
     targetPos.current.y += microSwayY;
 

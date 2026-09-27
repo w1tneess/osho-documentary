@@ -95,21 +95,23 @@ export function NavigationHeader({ chapterIndexRef, onOpenDrawer }: NavigationHe
             </span>
           </button>
 
-          {/* Chapters Index Trigger */}
+          {/* Chapters Index Trigger — Button-in-Button Architecture */}
           <button
             className="nav-action-btn nav-drawer-btn"
             onClick={onOpenDrawer}
             aria-label="Open Table of Contents"
             title="Table of Contents (Index)"
           >
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-              <path
-                d="M2.5 4.5H12.5M2.5 7.5H12.5M2.5 10.5H9.5"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-              />
-            </svg>
+            <div className="nav-btn-icon-wrapper" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 15 15" fill="none">
+                <path
+                  d="M2.5 4.5H12.5M2.5 7.5H12.5M2.5 10.5H9.5"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </div>
             <span className="nav-btn-label">Index</span>
           </button>
         </div>
