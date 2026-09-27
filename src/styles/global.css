@@ -143,9 +143,16 @@ p {
   position: relative;
 }
 
-/* Intentional Viewport Canvas Layouts */
+/* Intentional Viewport Canvas Layouts with Ambient Paper Washes */
 .spread-left {
   align-items: flex-start;
+  background: linear-gradient(
+    90deg,
+    rgba(245, 239, 227, 0.94) 0%,
+    rgba(245, 239, 227, 0.86) 32%,
+    rgba(245, 239, 227, 0.4) 52%,
+    rgba(245, 239, 227, 0) 70%
+  );
 }
 .spread-left .editorial-content {
   max-width: 38rem;
@@ -154,6 +161,13 @@ p {
 
 .spread-right {
   align-items: flex-end;
+  background: linear-gradient(
+    270deg,
+    rgba(245, 239, 227, 0.94) 0%,
+    rgba(245, 239, 227, 0.86) 32%,
+    rgba(245, 239, 227, 0.4) 52%,
+    rgba(245, 239, 227, 0) 70%
+  );
 }
 .spread-right .editorial-content {
   max-width: 38rem;
@@ -163,6 +177,12 @@ p {
 .spread-center {
   align-items: center;
   text-align: center;
+  background: radial-gradient(
+    ellipse 75% 65% at 50% 50%,
+    rgba(245, 239, 227, 0.95) 0%,
+    rgba(245, 239, 227, 0.78) 50%,
+    rgba(245, 239, 227, 0) 100%
+  );
 }
 .spread-center .editorial-content {
   max-width: 44rem;
@@ -171,55 +191,123 @@ p {
 
 .spread-wide {
   align-items: center;
+  background: linear-gradient(
+    180deg,
+    rgba(245, 239, 227, 0.94) 0%,
+    rgba(245, 239, 227, 0.82) 100%
+  );
 }
 .spread-wide .editorial-content {
   max-width: var(--content-wide);
   width: 100%;
 }
 
-/* Directional publication atmospheric fades — completely unboxed, melts into the 3D world */
-.editorial-content {
-  position: relative;
+/* Quote Beat: Contemplative, spacious, expansive negative space */
+.spread-quote {
+  align-items: center;
+  justify-content: center;
+  min-height: 85vh;
+  background: radial-gradient(
+    ellipse 75% 65% at 50% 50%,
+    rgba(245, 239, 227, 0.95) 0%,
+    rgba(245, 239, 227, 0.76) 55%,
+    rgba(245, 239, 227, 0) 100%
+  );
+}
+.spread-quote .editorial-content {
+  max-width: 48rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Split Beat: Comparative two-column layout */
+.spread-split {
+  align-items: center;
+  min-height: 85vh;
+  background: linear-gradient(
+    180deg,
+    rgba(245, 239, 227, 0.94) 0%,
+    rgba(245, 239, 227, 0.84) 100%
+  );
+}
+.spread-split .editorial-content {
+  max-width: var(--content-wide);
+  width: 100%;
+}
+.spread-split .beat-blocks-flow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-8);
+  margin-top: var(--space-6);
+}
+
+/* Statement Beat: Large resonant typography */
+.spread-statement {
+  align-items: center;
+  min-height: 75vh;
+  background: radial-gradient(
+    ellipse 75% 65% at 50% 50%,
+    rgba(245, 239, 227, 0.95) 0%,
+    rgba(245, 239, 227, 0.76) 55%,
+    rgba(245, 239, 227, 0) 100%
+  );
+}
+.spread-statement .editorial-content {
+  max-width: 46rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Timeline Beat: Clean chronology column */
+.spread-timeline {
+  align-items: flex-start;
+  min-height: 75vh;
   background: linear-gradient(
     90deg,
     rgba(245, 239, 227, 0.94) 0%,
-    rgba(245, 239, 227, 0.75) 75%,
-    rgba(245, 239, 227, 0) 100%
+    rgba(245, 239, 227, 0.86) 32%,
+    rgba(245, 239, 227, 0.4) 52%,
+    rgba(245, 239, 227, 0) 70%
   );
-  padding: var(--space-8) var(--space-10) var(--space-8) 0;
+}
+.spread-timeline .editorial-content {
+  max-width: 38rem;
+  margin-right: auto;
+}
+
+/* Editorial content container — completely unboxed, seamlessly melts into the spread */
+.editorial-content {
+  position: relative;
+  background: transparent;
+  padding: 0;
   border: none;
   border-radius: 0;
 }
 
-.spread-right .editorial-content {
-  background: linear-gradient(
-    270deg,
-    rgba(245, 239, 227, 0.94) 0%,
-    rgba(245, 239, 227, 0.75) 75%,
-    rgba(245, 239, 227, 0) 100%
-  );
-  padding: var(--space-8) 0 var(--space-8) var(--space-10);
+/* Beat Typography */
+.beat-title {
+  font-family: var(--font-editorial);
+  font-size: clamp(1.6rem, 2.8vw, 2.35rem);
+  font-weight: 500;
+  color: var(--color-earth-deep);
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-2);
+  line-height: 1.15;
 }
 
-.spread-center .editorial-content {
-  background: radial-gradient(
-    ellipse at center,
-    rgba(245, 239, 227, 0.94) 0%,
-    rgba(245, 239, 227, 0.75) 60%,
-    rgba(245, 239, 227, 0) 100%
-  );
-  padding: var(--space-8) var(--space-8);
+.beat-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-earth-warm);
+  display: block;
+  margin-bottom: var(--space-5);
 }
 
-.hero-composition {
-  max-width: 44rem;
-  background: linear-gradient(
-    90deg,
-    rgba(245, 239, 227, 0.95) 0%,
-    rgba(245, 239, 227, 0.8) 75%,
-    rgba(245, 239, 227, 0) 100%
-  );
-  padding: var(--space-8) var(--space-10) var(--space-8) 0;
+.beat-blocks-flow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 @media (max-width: 768px) {
@@ -229,13 +317,21 @@ p {
   }
   .spread-left .editorial-content,
   .spread-right .editorial-content,
-  .spread-center .editorial-content {
+  .spread-center .editorial-content,
+  .spread-quote .editorial-content,
+  .spread-split .editorial-content,
+  .spread-statement .editorial-content,
+  .spread-timeline .editorial-content {
     max-width: 100%;
     margin: 0;
   }
+  .spread-split .beat-blocks-flow {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
   .editorial-content,
   .hero-composition {
-    background: rgba(245, 239, 227, 0.88);
+    background: rgba(245, 239, 227, 0.92);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     padding: var(--space-6) var(--space-4);
@@ -309,17 +405,19 @@ p {
   justify-content: flex-end;
   padding: var(--space-16) var(--page-gutter) var(--space-16);
   position: relative;
+  background: linear-gradient(
+    90deg,
+    rgba(245, 239, 227, 0.94) 0%,
+    rgba(245, 239, 227, 0.88) 32%,
+    rgba(245, 239, 227, 0.45) 54%,
+    rgba(245, 239, 227, 0) 72%
+  );
 }
 
 .hero-composition {
-  max-width: 52rem;
-  background: radial-gradient(
-    ellipse at bottom left,
-    rgba(245, 239, 227, 0.9) 0%,
-    rgba(245, 239, 227, 0.6) 60%,
-    rgba(245, 239, 227, 0) 100%
-  );
-  padding: var(--space-8);
+  max-width: 44rem;
+  background: transparent;
+  padding: 0;
 }
 
 .hero-eyebrow {
@@ -563,17 +661,18 @@ p {
   align-items: center;
   text-align: center;
   padding: var(--space-32) var(--page-gutter);
+  background: radial-gradient(
+    ellipse 75% 65% at 50% 50%,
+    rgba(245, 239, 227, 0.95) 0%,
+    rgba(245, 239, 227, 0.8) 50%,
+    rgba(245, 239, 227, 0) 85%
+  );
 }
 
 .final-horizon-content {
   max-width: 48rem;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(245, 239, 227, 0.92) 0%,
-    rgba(245, 239, 227, 0.6) 60%,
-    rgba(245, 239, 227, 0) 100%
-  );
-  padding: var(--space-12) var(--space-8);
+  background: transparent;
+  padding: 0;
 }
 
 .final-horizon-title {

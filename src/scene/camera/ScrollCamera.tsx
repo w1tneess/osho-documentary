@@ -22,8 +22,8 @@ interface CameraWaypoint {
  * - Intentional negative space framing for the editorial content
  */
 const CAMERA_WAYPOINTS: CameraWaypoint[] = [
-  // 0. Intro: Wide dawn vista, balustrade on left, branch on right
-  { progress: 0.0, pos: [0, 2.8, 14], lookAt: [0, 1.4, -15] },
+  // 0. Intro: Wide dawn vista, tree & path framed to the right, calm negative space on left
+  { progress: 0.0, pos: [-1.5, 2.6, 14], lookAt: [2.2, 1.6, -20] },
   // 1. Ch 1: The Seeker - Camera moves left, frames the solitary Bodhi tree on the right
   { progress: 0.09, pos: [-2.8, 2.5, -18], lookAt: [3.2, 1.8, -35] },
   // 2. Ch 2: Founding - Approaching stone gate, pillar framing right, looking into terrace

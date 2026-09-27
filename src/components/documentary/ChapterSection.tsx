@@ -1,4 +1,4 @@
-import type { ChapterContent, DocumentaryBlock } from '../../content/types';
+import type { ChapterContent, DocumentaryBeat, DocumentaryBlock } from '../../content/types';
 import { BlockRenderer } from './BlockRenderer';
 
 interface ChapterSectionProps {
@@ -8,27 +8,23 @@ interface ChapterSectionProps {
 /**
  * Spatial Editorial Chapter Section
  * 
- * Replaces the monolithic card container with choreographed editorial spreads:
- * - Spread 1: Chapter Opener Moment (strong title, metadata, thesis)
- * - Spread 2: Narrative & Primary Quotation (asymmetric negative space)
- * - Spread 3: Critical Analysis & Documentary Timeline
+ * Implements the authored DOCUMENTARY BEAT SYSTEM:
+ * Each chapter is composed of:
+ * 1. Grand Chapter Opener (title, metadata, chronology, thesis)
+ * 2. Sequence of focused Documentary Beats (0.8 - 1.2 vh each)
  * 
- * Layout alternates between left-third, right-third, and center-wide to balance
- * the 3D foreground framing and midground architecture.
+ * Each beat maps to an editorial composition:
+ * - 'left': Text safe zone on left, 3D focal subject on right
+ * - 'right': Text safe zone on right, 3D focal subject on left
+ * - 'quote': Large negative space, centered or off-center contemplative moment
+ * - 'split': Comparative or dual-perspective two-column publication layout
+ * - 'statement': Resonant thematic statement with substantial breathing room
+ * - 'timeline': Scholarly chronological timeline beat
  */
 export function ChapterSection({ chapter }: ChapterSectionProps) {
   const isOdd = chapter.index % 2 !== 0;
 
-  // Determine editorial layout classes based on chapter environment
-  // Ch 1 (Left text vs Right Bodhi tree)
-  // Ch 2 (Right text vs Left stone gate)
-  // Ch 3 (Center text framed by dual colonnade)
-  // Ch 4 (Left text vs Right reflection pool)
-  // Ch 5 (Right text vs Left watchtower & wide highway)
-  // Ch 6 (Left text vs Right tilted fractured pillars)
-  // Ch 7 (Right text vs Left solitary gate)
-  // Ch 8 (Split / Center text navigating the duality threshold)
-  // Ch 9 (Center-wide text over vast open horizon)
+  // Chapter opener spread alignment based on environment focus
   const openerSpreadClass =
     chapter.index === 3 || chapter.index === 9
       ? 'spread-center'
@@ -36,33 +32,14 @@ export function ChapterSection({ chapter }: ChapterSectionProps) {
       ? 'spread-left'
       : 'spread-right';
 
-  const secondarySpreadClass =
-    chapter.index === 3 || chapter.index === 8
-      ? 'spread-wide'
-      : isOdd
-      ? 'spread-right'
-      : 'spread-left';
-
-  // Group blocks into coherent narrative spreads
-  const blocks = chapter.blocks;
-
-  // If the first block is a heading that duplicates chapter title, we use it for the opener
-  const firstBlock = blocks[0];
-  const remainingBlocks = blocks.slice(1);
-
-  // Divide remaining blocks into narrative beats (first half vs second half)
-  const midPoint = Math.ceil(remainingBlocks.length / 2);
-  const narrativeBeatA = remainingBlocks.slice(0, midPoint);
-  const narrativeBeatB = remainingBlocks.slice(midPoint);
-
   return (
     <article
       className="chapter-container"
       id={`chapter-${chapter.slug}`}
       aria-label={`Chapter ${chapter.index}: ${chapter.title}`}
     >
-      {/* ─── SPREAD 1: CHAPTER OPENER MOMENT ─── */}
-      <section className={`editorial-spread ${openerSpreadClass}`}>
+      {/* ─── CHAPTER OPENER MOMENT ─── */}
+      <section className={`editorial-spread ${openerSpreadClass} chapter-opener-spread`}>
         <div className="editorial-content chapter-opener">
           {/* Chapter Metadata Eyebrow */}
           <div className="chapter-entry-label reveal">
@@ -87,43 +64,63 @@ export function ChapterSection({ chapter }: ChapterSectionProps) {
             </span>
           )}
 
-          {/* Refined Divider */}
+          {/* Refined Divider Rule */}
           <div className="chapter-divider-rule reveal" style={{ transitionDelay: '220ms' }} />
-
-          {/* First block / opening statement if available and not repeating subtitle */}
-          {firstBlock &&
-            firstBlock.type === 'heading' &&
-            firstBlock.body &&
-            firstBlock.body.trim() !== (chapter.subtitle || '').trim() && (
-              <p className="editorial-statement reveal" style={{ transitionDelay: '260ms' }}>
-                {firstBlock.body}
-              </p>
-            )}
         </div>
       </section>
 
-      {/* ─── SPREAD 2: PRIMARY NARRATIVE & TESTIMONY ─── */}
-      {narrativeBeatA.length > 0 && (
-        <section className={`editorial-spread ${secondarySpreadClass}`}>
-          <div className="editorial-content">
-            {narrativeBeatA.map((block: DocumentaryBlock, i: number) => (
-              <BlockRenderer
-                key={`${chapter.id}-beatA-${i}`}
-                block={block}
-                delay={i * 70}
-              />
-            ))}
-          </div>
-        </section>
-      )}
+      {/* ─── DOCUMENTARY BEATS SEQUENCE ─── */}
+      {chapter.beats && chapter.beats.length > 0 ? (
+        chapter.beats.map((beat: DocumentaryBeat) => (
+          <section
+            key={beat.id}
+            id={`beat-${beat.id}`}
+            className={`editorial-spread spread-${beat.layoutMode}`}
+            data-beat-id={beat.id}
+            data-focal-target={beat.focalTarget}
+          >
+            <div className={`editorial-content editorial-beat beat-${beat.layoutMode}`}>
+              {/* Optional Beat Eyebrow */}
+              {beat.eyebrow && (
+                <span className="editorial-meta-tag reveal">
+                  <span className="meta-dot">▪</span> {beat.eyebrow}
+                </span>
+              )}
 
-      {/* ─── SPREAD 3: CRITICAL ANALYSIS & OUTCOMES ─── */}
-      {narrativeBeatB.length > 0 && (
+              {/* Beat Heading Title */}
+              {beat.title && (
+                <h3 className="beat-title reveal" style={{ transitionDelay: '80ms' }}>
+                  {beat.title}
+                </h3>
+              )}
+
+              {/* Beat Subtitle */}
+              {beat.subtitle && (
+                <span className="beat-subtitle reveal" style={{ transitionDelay: '140ms' }}>
+                  {beat.subtitle}
+                </span>
+              )}
+
+              {/* Beat Documentary Content Blocks */}
+              <div className="beat-blocks-flow">
+                {beat.blocks.map((block: DocumentaryBlock, i: number) => (
+                  <BlockRenderer
+                    key={`${beat.id}-block-${i}`}
+                    block={block}
+                    delay={160 + i * 70}
+                  />
+                ))}
+              </div>
+            </div>
+          </section>
+        ))
+      ) : (
+        /* Fallback for chapters without beats */
         <section className={`editorial-spread ${openerSpreadClass}`}>
           <div className="editorial-content">
-            {narrativeBeatB.map((block: DocumentaryBlock, i: number) => (
+            {chapter.blocks.map((block: DocumentaryBlock, i: number) => (
               <BlockRenderer
-                key={`${chapter.id}-beatB-${i}`}
+                key={`${chapter.id}-block-${i}`}
                 block={block}
                 delay={i * 70}
               />

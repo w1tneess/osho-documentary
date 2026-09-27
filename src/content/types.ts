@@ -1,5 +1,5 @@
 // Content type definitions for the Osho Documentary
-// These types define the structured content model for the documentary data.
+// Defines the structured content model for the documentary data based on PRD, TRD, and DESIGN.md.
 
 export type EvidenceKind =
   | 'fact'
@@ -8,6 +8,15 @@ export type EvidenceKind =
   | 'argument'
   | 'conclusion'
   | 'reference';
+
+export type EditorialLayoutMode =
+  | 'left'
+  | 'right'
+  | 'quote'
+  | 'split'
+  | 'statement'
+  | 'center'
+  | 'timeline';
 
 export interface HeadingBlock {
   type: 'heading';
@@ -71,12 +80,28 @@ export type DocumentaryBlock =
   | TimelineBlock
   | ReferenceBlock;
 
+/**
+ * A Documentary Beat represents one focused narrative moment / camera shot.
+ * Maps 1:1 with an editorial composition (0.8 - 1.2 viewport heights).
+ */
+export interface DocumentaryBeat {
+  id: string;
+  chapterId: string;
+  layoutMode: EditorialLayoutMode;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  blocks: DocumentaryBlock[];
+  focalTarget?: string;
+}
+
 export interface ChapterContent {
   id: string;
   index: number;
   slug: string;
   title: string;
   subtitle?: string;
+  beats: DocumentaryBeat[];
   blocks: DocumentaryBlock[];
 }
 
