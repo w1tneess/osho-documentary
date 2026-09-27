@@ -337,55 +337,59 @@ p {
    CHAPTER OPENER MOMENTS
    ───────────────────────────────────────────────────────────── */
 
+/* ─────────────────────────────────────────────────────────────
+   CHAPTER OPENER MOMENTS
+   ───────────────────────────────────────────────────────────── */
+
 .chapter-opener {
-  min-height: 90vh;
+  min-height: 85vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: var(--space-16) var(--page-gutter);
+  padding: var(--space-12) var(--page-gutter);
 }
 
-.chapter-entry-label {
+.chapter-meta-line {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
   font-weight: 500;
-  letter-spacing: var(--tracking-ultra);
-  text-transform: uppercase;
   color: var(--color-terracotta);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-3);
 }
 
-.chapter-number-badge {
-  color: var(--color-earth-deep);
-  font-weight: 600;
+.chapter-ordinal {
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.meta-sep {
+  opacity: 0.4;
+}
+
+.chapter-period {
+  color: var(--color-earth-warm);
+  font-variant-numeric: tabular-nums;
 }
 
 .chapter-main-title {
-  font-size: clamp(2.5rem, 5.5vw, 4.8rem);
+  font-size: clamp(2.4rem, 5vw, 4.4rem);
   font-weight: 500;
   line-height: 1.08;
   letter-spacing: -0.02em;
   color: var(--color-earth-deep);
-  margin-bottom: var(--space-4);
+  margin: 0;
+  max-width: 24ch;
 }
 
-.chapter-period-tag {
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
-  letter-spacing: var(--tracking-wide);
-  color: var(--color-earth-warm);
-  display: block;
-  margin-bottom: var(--space-6);
-}
-
-.chapter-divider-rule {
-  width: 48px;
+.chapter-accent-line {
+  width: 36px;
   height: 1.5px;
   background-color: var(--color-terracotta);
-  margin-bottom: var(--space-6);
+  opacity: 0.75;
+  margin-top: var(--space-4);
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -415,152 +419,204 @@ p {
   padding: 0;
 }
 
-.hero-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+.hero-genre-tag {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
   font-weight: 500;
-  letter-spacing: var(--tracking-ultra);
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: var(--color-terracotta);
   margin-bottom: var(--space-3);
   display: block;
 }
 
-.hero-title-group {
+.hero-headline-group {
   margin-bottom: var(--space-4);
 }
 
-.hero-title-main {
-  font-size: clamp(3.4rem, 8vw, 7.5rem);
+.hero-headline {
+  font-family: var(--font-editorial);
+  font-size: clamp(3.2rem, 7.5vw, 6.8rem);
   font-weight: 500;
   line-height: 0.95;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
   color: var(--color-earth-deep);
+  margin: 0;
+}
+
+.hero-headline-primary {
   display: block;
 }
 
-.hero-title-sub {
-  font-size: clamp(2rem, 4.5vw, 4rem);
+.hero-headline-secondary {
+  display: block;
+  font-size: clamp(1.8rem, 4.2vw, 3.8rem);
   font-weight: 400;
   font-style: italic;
-  line-height: 1.05;
   color: var(--color-earth-mid);
-  display: block;
   margin-top: var(--space-1);
 }
 
-.hero-subtitle {
-  font-family: var(--font-body);
-  font-size: clamp(0.95rem, 1.4vw, 1.25rem);
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.hero-thesis {
+  font-family: var(--font-editorial);
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  line-height: 1.35;
   color: var(--color-earth-warm);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-3);
+  max-width: 38rem;
 }
 
 .hero-lede {
-  font-size: clamp(1.05rem, 1.3vw, 1.25rem);
-  line-height: var(--leading-relaxed);
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
+  line-height: 1.65;
   color: var(--color-ink-soft);
-  max-width: 62ch;
-  margin-bottom: var(--space-8);
+  max-width: 40rem;
 }
 
 .hero-scroll-cue {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--color-earth-warm);
+  opacity: 0.75;
 }
 
-.hero-scroll-line {
-  width: 32px;
+.scroll-cue-line {
+  width: 36px;
   height: 1px;
-  background-color: var(--color-terracotta);
+  background: var(--color-earth-warm);
+}
+
+.scroll-cue-label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--color-earth-warm);
 }
 
 /* ─────────────────────────────────────────────────────────────
-   EDITORIAL ELEMENTS & TYPOGRAPHY
+   EDITORIAL ELEMENTS & SCHOLARLY TYPOGRAPHY
    ───────────────────────────────────────────────────────────── */
 
-/* Quiet Editorial Metadata (Replacing SaaS badges) */
-.editorial-meta-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-family: var(--font-mono);
+.beat-context-tag {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--color-terracotta);
+  display: block;
+  margin-bottom: var(--space-1);
+}
+
+.editorial-paragraph {
+  font-family: var(--font-body);
+  font-size: clamp(0.975rem, 1.12vw, 1.1rem);
+  line-height: var(--leading-relaxed);
+  color: var(--color-ink-soft);
+  margin-bottom: var(--space-4);
+  max-width: var(--reading-measure);
+}
+
+.scholarly-annotation {
+  display: inline-block;
+  margin-left: 0.5rem;
+  font-family: var(--font-ui);
   font-size: 0.6875rem;
   font-weight: 500;
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
   color: var(--color-earth-warm);
-  margin-left: var(--space-3);
-  vertical-align: middle;
+  background: rgba(26, 20, 16, 0.05);
+  border: 1px solid rgba(26, 20, 16, 0.08);
+  padding: 0.1rem 0.45rem;
+  border-radius: var(--radius-sm);
+  vertical-align: 0.1em;
+  letter-spacing: 0.02em;
 }
 
-.meta-dot {
+.scholarly-annotation.is-analysis {
   color: var(--color-terracotta);
-  font-size: 0.5rem;
+  background: rgba(184, 92, 58, 0.08);
+  border-color: rgba(184, 92, 58, 0.15);
 }
 
-/* Quotation Spread (Composition B) */
+.editorial-subheading {
+  font-family: var(--font-editorial);
+  font-size: clamp(1.4rem, 2.4vw, 2.2rem);
+  color: var(--color-earth-deep);
+  margin-bottom: var(--space-2);
+  line-height: 1.2;
+}
+
+.editorial-lead-body {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-earth-warm);
+  margin-bottom: var(--space-5);
+  line-height: var(--leading-normal);
+}
+
+/* Quotes — Clean, literary indentation with distinct serif italic */
 .editorial-quote {
   position: relative;
-  margin: var(--space-8) 0;
-  max-width: 50ch;
-}
-
-.quote-mark {
-  font-family: var(--font-editorial);
-  font-size: 3.5rem;
-  line-height: 0.5;
-  color: var(--color-terracotta);
-  opacity: 0.6;
-  display: block;
-  margin-bottom: var(--space-2);
+  margin: var(--space-6) 0;
+  padding-left: var(--space-6);
+  border-left: 2px solid var(--color-terracotta);
+  max-width: var(--reading-measure);
 }
 
 .quote-text {
   font-family: var(--font-editorial);
   font-style: italic;
-  font-size: clamp(1.2rem, 1.9vw, 1.65rem);
-  line-height: 1.38;
+  font-size: clamp(1.15rem, 1.8vw, 1.55rem);
+  line-height: 1.45;
   color: var(--color-earth-deep);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-3);
 }
 
 .quote-cite {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 0.8125rem;
   color: var(--color-earth-warm);
   font-style: normal;
 }
 
-/* Critical Analysis Eyebrow & Block */
-.analysis-entry {
-  position: relative;
-  padding-left: var(--space-6);
-  border-left: 1.5px solid var(--color-terracotta);
-  margin: var(--space-6) 0;
+.cite-author {
+  font-weight: 600;
+  color: var(--color-earth-mid);
 }
 
-.analysis-eyebrow {
-  font-family: var(--font-mono);
+.cite-source {
+  color: var(--color-earth-warm);
+}
+
+/* Analysis Entry — Quiet editorial aside */
+.analysis-entry {
+  position: relative;
+  padding: var(--space-4) var(--space-5);
+  background: rgba(245, 239, 227, 0.5);
+  border-left: 2px solid var(--color-terracotta);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin: var(--space-6) 0;
+  max-width: var(--reading-measure);
+}
+
+.analysis-label {
+  font-family: var(--font-ui);
   font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: var(--tracking-ultra);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-terracotta);
   margin-bottom: var(--space-2);
   display: block;
+}
+
+.analysis-body {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: var(--leading-relaxed);
+  color: var(--color-earth-deep);
+  margin: 0;
 }
 
 /* Impact Statement Spread (Composition D) */

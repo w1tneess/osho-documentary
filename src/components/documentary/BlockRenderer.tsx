@@ -8,12 +8,11 @@ interface BlockRendererProps {
 /**
  * Editorial Publication Block Renderer
  * 
- * Implements:
- * - Unboxed editorial typography
- * - Quiet metadata tags instead of SaaS pill badges
- * - Pure negative space quotations (Composition B)
- * - Typographic analysis eyebrows with left hairline rules
- * - Integrated minimal timelines (Composition E)
+ * Grounded in scholarly editorial craftsmanship:
+ * - Dignified typography with authentic hierarchy
+ * - Quiet scholarly evidence citations (no shouty SaaS badges)
+ * - Restrained blockquotes with generous negative space
+ * - Minimal, informative chronological entries
  */
 export function BlockRenderer({ block, delay = 0 }: BlockRendererProps) {
   const style = delay > 0 ? { transitionDelay: `${delay}ms` } : undefined;
@@ -22,25 +21,11 @@ export function BlockRenderer({ block, delay = 0 }: BlockRendererProps) {
     case 'heading':
       return (
         <div className="reveal" style={style}>
-          {block.eyebrow && (
-            <span className="chapter-entry-label">{block.eyebrow}</span>
-          )}
-          <h2 style={{
-            fontSize: block.eyebrow ? 'clamp(2rem, 4vw, 3.2rem)' : 'clamp(1.5rem, 2.8vw, 2.4rem)',
-            color: 'var(--color-earth-deep)',
-            marginBottom: 'var(--space-3)',
-            lineHeight: 1.15,
-          }}>
+          <h2 className="editorial-subheading">
             {block.title}
           </h2>
           {block.body && (
-            <p style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.875rem',
-              color: 'var(--color-earth-warm)',
-              marginBottom: 'var(--space-6)',
-              letterSpacing: 'var(--tracking-wide)',
-            }}>
+            <p className="editorial-lead-body">
               {block.body}
             </p>
           )}
@@ -50,21 +35,16 @@ export function BlockRenderer({ block, delay = 0 }: BlockRendererProps) {
     case 'paragraph':
       return (
         <div className="reveal" style={style}>
-          <p style={{
-            fontSize: 'clamp(1rem, 1.15vw, 1.125rem)',
-            lineHeight: 'var(--leading-relaxed)',
-            color: 'var(--color-ink-soft)',
-            marginBottom: 'var(--space-5)',
-          }}>
+          <p className="editorial-paragraph">
             {block.body}
             {block.evidence === 'fact' && (
-              <span className="editorial-meta-tag">
-                <span className="meta-dot">▪</span> DOCUMENTED
+              <span className="scholarly-annotation" title="Documented by archival records">
+                Documented
               </span>
             )}
             {block.evidence === 'analysis' && (
-              <span className="editorial-meta-tag">
-                <span className="meta-dot">▪</span> ANALYSIS
+              <span className="scholarly-annotation is-analysis" title="Critical documentary analysis">
+                Analysis
               </span>
             )}
           </p>
@@ -74,12 +54,12 @@ export function BlockRenderer({ block, delay = 0 }: BlockRendererProps) {
     case 'quote':
       return (
         <blockquote className="editorial-quote reveal" style={style}>
-          <span className="quote-mark">“</span>
           <p className="quote-text">{block.text}</p>
           {(block.attribution || block.source) && (
             <cite className="quote-cite">
-              {block.attribution && <strong>{block.attribution}</strong>}
-              {block.source && <span>— {block.source}</span>}
+              {block.attribution && <span className="cite-author">{block.attribution}</span>}
+              {block.attribution && block.source && <span className="cite-sep">{' \u2014 '}</span>}
+              {block.source && <span className="cite-source">{block.source}</span>}
             </cite>
           )}
         </blockquote>
@@ -87,18 +67,14 @@ export function BlockRenderer({ block, delay = 0 }: BlockRendererProps) {
 
     case 'analysis':
       return (
-        <div className="analysis-entry reveal" style={style}>
-          <span className="analysis-eyebrow">
-            {block.label || 'DOCUMENTARY ANALYSIS'}
+        <aside className="analysis-entry reveal" style={style} aria-label="Editorial analysis">
+          <span className="analysis-label">
+            {block.label ? block.label : 'Critical analysis'}
           </span>
-          <p style={{
-            fontSize: '1rem',
-            lineHeight: 'var(--leading-relaxed)',
-            color: 'var(--color-earth-deep)',
-          }}>
+          <p className="analysis-body">
             {block.body}
           </p>
-        </div>
+        </aside>
       );
 
     case 'statement':
@@ -110,7 +86,7 @@ export function BlockRenderer({ block, delay = 0 }: BlockRendererProps) {
 
     case 'timeline':
       return (
-        <ul className="editorial-timeline reveal" style={style}>
+        <ul className="editorial-timeline reveal" style={style} aria-label="Chronology">
           {block.items.map((item, i) => (
             <li key={i} className="timeline-entry">
               <span className="timeline-date">{item.year}</span>

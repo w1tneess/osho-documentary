@@ -8,18 +8,10 @@ interface ChapterSectionProps {
 /**
  * Spatial Editorial Chapter Section
  * 
- * Implements the authored DOCUMENTARY BEAT SYSTEM:
- * Each chapter is composed of:
- * 1. Grand Chapter Opener (title, metadata, chronology, thesis)
- * 2. Sequence of focused Documentary Beats (0.8 - 1.2 vh each)
- * 
- * Each beat maps to an editorial composition:
- * - 'left': Text safe zone on left, 3D focal subject on right
- * - 'right': Text safe zone on right, 3D focal subject on left
- * - 'quote': Large negative space, centered or off-center contemplative moment
- * - 'split': Comparative or dual-perspective two-column publication layout
- * - 'statement': Resonant thematic statement with substantial breathing room
- * - 'timeline': Scholarly chronological timeline beat
+ * Authored Documentary Beat System:
+ * - Grand Chapter Opener with dignified literary typography
+ * - Sequence of focused Documentary Beats
+ * - Thoughtful negative space and seamless integration with 3D environment
  */
 export function ChapterSection({ chapter }: ChapterSectionProps) {
   const isOdd = chapter.index % 2 !== 0;
@@ -41,31 +33,24 @@ export function ChapterSection({ chapter }: ChapterSectionProps) {
       {/* ─── CHAPTER OPENER MOMENT ─── */}
       <section className={`editorial-spread ${openerSpreadClass} chapter-opener-spread`}>
         <div className="editorial-content chapter-opener">
-          {/* Chapter Metadata Eyebrow */}
-          <div className="chapter-entry-label reveal">
-            <span className="chapter-number-badge">
-              0{chapter.index} / 09
-            </span>
-            <span>•</span>
-            <span>
-              {chapter.subtitle || `CHAPTER 0${chapter.index}`}
-            </span>
+          {/* Chapter Metadata Line */}
+          <div className="chapter-meta-line reveal">
+            <span className="chapter-ordinal">Chapter 0{chapter.index}</span>
+            {chapter.subtitle && (
+              <>
+                <span className="meta-sep" aria-hidden="true">—</span>
+                <span className="chapter-period">{chapter.subtitle}</span>
+              </>
+            )}
           </div>
 
           {/* Majestic Chapter Title */}
-          <h2 className="chapter-main-title reveal" style={{ transitionDelay: '100ms' }}>
+          <h2 className="chapter-main-title reveal" style={{ transitionDelay: '80ms' }}>
             {chapter.title}
           </h2>
 
-          {/* Chapter Period / Chronology */}
-          {chapter.subtitle && (
-            <span className="chapter-period-tag reveal" style={{ transitionDelay: '180ms' }}>
-              {chapter.subtitle}
-            </span>
-          )}
-
-          {/* Refined Divider Rule */}
-          <div className="chapter-divider-rule reveal" style={{ transitionDelay: '220ms' }} />
+          {/* Subtle Accent Line */}
+          <div className="chapter-accent-line reveal" style={{ transitionDelay: '140ms' }} />
         </div>
       </section>
 
@@ -80,25 +65,25 @@ export function ChapterSection({ chapter }: ChapterSectionProps) {
             data-focal-target={beat.focalTarget}
           >
             <div className={`editorial-content editorial-beat beat-${beat.layoutMode}`}>
-              {/* Optional Beat Eyebrow */}
+              {/* Context Tag (Location / Phase) */}
               {beat.eyebrow && (
-                <span className="editorial-meta-tag reveal">
-                  <span className="meta-dot">▪</span> {beat.eyebrow}
+                <span className="beat-context-tag reveal">
+                  {beat.eyebrow}
                 </span>
               )}
 
               {/* Beat Heading Title */}
               {beat.title && (
-                <h3 className="beat-title reveal" style={{ transitionDelay: '80ms' }}>
+                <h3 className="beat-title reveal" style={{ transitionDelay: '70ms' }}>
                   {beat.title}
                 </h3>
               )}
 
               {/* Beat Subtitle */}
               {beat.subtitle && (
-                <span className="beat-subtitle reveal" style={{ transitionDelay: '140ms' }}>
+                <p className="beat-subtitle reveal" style={{ transitionDelay: '120ms' }}>
                   {beat.subtitle}
-                </span>
+                </p>
               )}
 
               {/* Beat Documentary Content Blocks */}
@@ -107,7 +92,7 @@ export function ChapterSection({ chapter }: ChapterSectionProps) {
                   <BlockRenderer
                     key={`${beat.id}-block-${i}`}
                     block={block}
-                    delay={160 + i * 70}
+                    delay={140 + i * 60}
                   />
                 ))}
               </div>
@@ -122,7 +107,7 @@ export function ChapterSection({ chapter }: ChapterSectionProps) {
               <BlockRenderer
                 key={`${chapter.id}-block-${i}`}
                 block={block}
-                delay={i * 70}
+                delay={i * 60}
               />
             ))}
           </div>

@@ -8,9 +8,10 @@ interface HeroSectionProps {
 /**
  * Opening Cinematic Composition
  * 
- * Replaces the centered static card with an asymmetric, wide publication layout.
- * The 3D world (dawn mountains, distant horizon, stone terrace, winding path)
- * provides the visual atmosphere and depth.
+ * Literary & Scholarly Editorial Craft:
+ * - Dignified serif typography carrying the weight of the investigation
+ * - Asymmetric, wide publication layout with atmospheric negative space
+ * - Real documentary thesis and introductory blocks
  */
 export function HeroSection({ blocks }: HeroSectionProps) {
   // Extract major content from intro blocks
@@ -25,46 +26,48 @@ export function HeroSection({ blocks }: HeroSectionProps) {
       aria-label="Introduction: Osho Rajneesh Documentary"
     >
       <div className="hero-composition">
-        {/* Editorial Eyebrow */}
-        <span className="hero-eyebrow">
-          AN INTERACTIVE DOCUMENTARY INVESTIGATION
+        {/* Restrained Publication Eyebrow */}
+        <span className="hero-genre-tag reveal">
+          A Documentary Investigation
         </span>
 
-        {/* Cinematic Title Group */}
-        <div className="hero-title-group">
-          <h1 className="hero-title-main">OSHO</h1>
-          <span className="hero-title-sub">RAJNEESH</span>
+        {/* Grand Title Presentation */}
+        <div className="hero-headline-group reveal" style={{ transitionDelay: '60ms' }}>
+          <h1 className="hero-headline">
+            <span className="hero-headline-primary">Osho</span>
+            <span className="hero-headline-secondary">Rajneesh</span>
+          </h1>
         </div>
 
         {/* Subtitle / Thesis */}
-        <p className="hero-subtitle">
+        <p className="hero-thesis reveal" style={{ transitionDelay: '120ms' }}>
           {headerBlock && 'body' in headerBlock && headerBlock.body
             ? headerBlock.body
             : 'Philosophy, Outcomes, and the Truth Behind the Movement'}
         </p>
 
-        {/* Restrained Editorial Lede */}
+        {/* Lede Introduction */}
         {ledeBlock && 'body' in ledeBlock && (
-          <p className="hero-lede">
+          <p className="hero-lede reveal" style={{ transitionDelay: '180ms' }}>
             {ledeBlock.body}
           </p>
         )}
 
-        {/* Remaining narrative introduction blocks rendered cleanly */}
-        <div style={{ marginTop: 'var(--space-6)', maxWidth: '44rem' }}>
+        {/* Narrative Introduction Blocks */}
+        <div className="hero-narrative-flow" style={{ marginTop: 'var(--space-6)', maxWidth: '44rem' }}>
           {narrativeBlocks.map((block, i) => (
             <BlockRenderer
               key={`intro-block-${i}`}
               block={block}
-              delay={i * 80}
+              delay={240 + i * 70}
             />
           ))}
         </div>
 
-        {/* Restrained Scroll Prompt */}
+        {/* Quiet Scroll Cue */}
         <div className="hero-scroll-cue reveal" style={{ marginTop: 'var(--space-8)' }}>
-          <div className="hero-scroll-line" />
-          <span>SCROLL TO ENTER THE JOURNEY</span>
+          <span className="scroll-cue-line" aria-hidden="true" />
+          <span className="scroll-cue-label">Scroll to explore</span>
         </div>
       </div>
     </section>
