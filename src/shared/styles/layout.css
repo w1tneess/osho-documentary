@@ -1,0 +1,805 @@
+/* ─────────────────────────────────────────────────────────
+   OSHO DOCUMENTARY — LAYOUT
+   The composition system: how the editorial column and the 3D world are placed
+   in the same frame.
+
+   THE RULE
+   --------
+   Every narrative beat occupies one viewport-height band. Within that band:
+
+   • The editorial column sits in a FIXED SET OF GRID COLUMNS, chosen by the
+     beat's composition, not by its content length.
+   • The 3D subject is panned into the complementary third (see ScrollCamera),
+     driven by the same `composition` field in the score.
+   • A directional scrim is anchored to the editorial side, so the reading
+     surface is always separated from the scene.
+
+   The result is that text and world are staged together rather than stacked.
+
+   RESPONSIVE IS ART DIRECTION, NOT SCALING
+   ----------------------------------------
+   Each breakpoint is a different composition, not a smaller version of the
+   same one:
+
+     wide landscape  asymmetric 12-col, subject in the far third
+     laptop          same, tightened
+     tablet portrait single column, subject above, plate below
+     mobile          subject in the upper third, plate occupies the lower band
+   ───────────────────────────────────────────────────────── */
+
+/* ─── The beat band ────────────────────────────────────────────────────────
+   Every beat is at least one full viewport tall so the camera always has a
+   complete frame to compose against, and adjacent beats never share a frame. */
+.spread {
+  position: relative;
+  display: grid;
+  align-content: center;
+  min-height: 100svh;
+  padding-block: var(--band-y);
+  padding-inline: var(--gutter-safe-r) var(--gutter-safe-l);
+  isolation: isolate;
+}
+
+.spread--beat {
+  min-height: 105svh;
+}
+
+/* Every anchor target clears the fixed navigation bar. One rule, so a section
+   can never be linked to in a way that hides its own title behind the chrome. */
+.hero,
+.spread,
+.chapter,
+[id] {
+  scroll-margin-top: var(--chrome-clear);
+}
+
+/* Quiet beats: a chapter opener needs air, not a full frame of density. */
+.spread--opener {
+  min-height: 88svh;
+}
+
+/* Held beats: quotes and statements get extra length so the camera slows. */
+.spread--held {
+  min-height: 118svh;
+}
+
+/* ─── The scrim ────────────────────────────────────────────────────────────
+   The single most important element in the DOM/canvas relationship. Without it
+   the reading surface and the landscape compete for the same values; with it
+   the page reads as printed matter laid over a photograph.
+
+   It is a gradient anchored to the editorial side, feathered to nothing on the
+   subject side. It never fully occludes the scene. */
+.spread::before {
+  content: '';
+  position: absolute;
+  inset: -6vh -2vw;
+  z-index: -1;
+  pointer-events: none;
+  opacity: var(--scrim-strength);
+  background: linear-gradient(
+    var(--scrim-dir, 90deg),
+    rgba(16, 13, 10, 0.82) 0%,
+    rgba(16, 13, 10, 0.66) 22%,
+    rgba(16, 13, 10, 0.28) 48%,
+    rgba(16, 13, 10, 0) 72%
+  );
+  transition: opacity var(--dur-base) linear;
+}
+
+.spread--center::before {
+  background: radial-gradient(
+    ellipse 78% 62% at 50% 48%,
+    rgba(16, 13, 10, 0.8) 0%,
+    rgba(16, 13, 10, 0.5) 48%,
+    rgba(16, 13, 10, 0) 78%
+  );
+}
+
+.spread--held::before {
+  background: linear-gradient(
+    180deg,
+    rgba(16, 13, 10, 0) 0%,
+    rgba(16, 13, 10, 0.55) 26%,
+    rgba(16, 13, 10, 0.62) 74%,
+    rgba(16, 13, 10, 0) 100%
+  );
+}
+
+/* ─── The grid ──────────────────────────────────────────────────────────────
+   Twelve columns. Beats declare which columns they occupy; nothing is centred
+   by default. */
+.spread__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--grid-gap);
+  width: 100%;
+  max-width: var(--grid-max);
+  margin-inline: auto;
+  align-items: center;
+}
+
+/* Composition: editorial left, subject right. */
+.spread--left .spread__grid > .spread__body {
+  grid-column: 1 / span 6;
+}
+.spread--left {
+  --scrim-dir: 90deg;
+}
+
+/* Composition: subject left, editorial right. */
+.spread--right .spread__grid > .spread__body {
+  grid-column: 7 / span 6;
+}
+.spread--right {
+  --scrim-dir: 270deg;
+}
+
+/* Composition: centred, subject low and wide. */
+.spread--center .spread__grid > .spread__body {
+  grid-column: 3 / span 8;
+}
+.spread--center {
+  --scrim-dir: 180deg;
+}
+
+/* Wide comparative beats reach further across the page. */
+.spread--wide .spread__grid > .spread__body {
+  grid-column: 2 / span 10;
+}
+
+/* Held beats (quote, statement) centre but keep a controlled measure. */
+.spread--held .spread__grid > .spread__body {
+  grid-column: 3 / span 8;
+}
+
+/* ─── The reading plate ─────────────────────────────────────────────────────
+   A physical object: paper tint, a soft edge, a shadow. It is what makes the
+   text read as printed matter rather than as an interface floating in space. */
+.plate {
+  position: relative;
+  background: var(--plate-bg);
+  -webkit-backdrop-filter: var(--plate-blur);
+  backdrop-filter: var(--plate-blur);
+  border-radius: var(--plate-radius);
+  padding: var(--plate-pad);
+  box-shadow: var(--plate-shadow);
+  max-width: var(--measure-wide);
+}
+
+/* A hairline rule on the leading edge marks the reading column without
+   boxing it in — the equivalent of a printed margin mark. */
+.plate::before {
+  content: '';
+  position: absolute;
+  top: var(--plate-pad);
+  bottom: var(--plate-pad);
+  left: 0;
+  width: 2px;
+  background: var(--accent);
+  opacity: 0.55;
+  border-radius: 2px;
+}
+
+.spread--center .plate::before,
+.spread--held .plate::before {
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  bottom: auto;
+  width: 44px;
+  height: 2px;
+}
+
+/* Held beats (quote, statement) do not use a plate at all. A quotation that
+   sits inside a box stops being a held moment and becomes a component. */
+.spread--held .plate {
+  background: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.spread--held .plate::before {
+  display: none;
+}
+
+/* ─── Vertical rhythm inside a beat ───────────────────────────────────────── */
+.beat__head {
+  margin-bottom: 1.5rem;
+}
+
+.beat__kicker {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.beat__title {
+  font-size: var(--step-2);
+  line-height: var(--leading-snug);
+  color: var(--ink-900);
+}
+
+.beat__title--lg {
+  font-size: var(--step-3);
+  line-height: var(--leading-tight);
+}
+
+.beat__standfirst {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  line-height: 1.45;
+  color: var(--ink-600);
+  font-style: italic;
+  max-width: 30rem;
+  margin-top: 0.5rem;
+}
+
+.beat__flow {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+/* ─── Chapter opener ────────────────────────────────────────────────────────
+   A title needs a stage, not a container. The ordinal is set small and wide,
+   the title large, and then a long silence before the first paragraph. */
+.opener__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--grid-gap);
+  max-width: var(--grid-max);
+  margin-inline: auto;
+  width: 100%;
+  align-items: center;
+}
+
+.opener--left .opener__body {
+  grid-column: 1 / span 7;
+}
+.opener--left {
+  --scrim-dir: 90deg;
+}
+.opener--right .opener__body {
+  grid-column: 6 / span 7;
+}
+.opener--right {
+  --scrim-dir: 270deg;
+}
+.opener--center .opener__body {
+  grid-column: 2 / span 10;
+  text-align: center;
+}
+.opener--center {
+  --scrim-dir: 180deg;
+}
+
+.opener__ordinal {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  /* Light, and never ink: see the note on the opener scrim below. */
+  color: #f0a583;
+  margin-bottom: 1.25rem;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.75);
+}
+
+.opener--center .opener__ordinal {
+  justify-content: center;
+}
+
+.opener__ordinal::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(246, 241, 230, 0.32);
+  max-width: 7rem;
+}
+
+.opener--center .opener__ordinal::after {
+  display: none;
+}
+
+.opener__period {
+  color: var(--scrim-ink-faint);
+  letter-spacing: var(--tracking-body);
+  text-transform: none;
+}
+
+.opener__title {
+  font-size: var(--step-4);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.028em;
+  color: var(--paper-000);
+  max-width: 16ch;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.6);
+}
+
+.opener--center .opener__title {
+  max-width: 22ch;
+  margin-inline: auto;
+}
+
+/* The conclusion reuses the opener's display type inside a held band, where
+   there is no `opener--*` modifier to hang the centring off. Two explicit
+   modifiers rather than an inline style, so the rule stays findable. */
+.opener__title--centered {
+  max-width: 22ch;
+  margin-inline: auto;
+}
+
+.opener__rule {
+  width: 3.5rem;
+  height: 2px;
+  background: #f0a583;
+  margin-top: 1.75rem;
+}
+
+.opener__rule--centered {
+  margin-inline: auto;
+}
+
+/* The opener scrim is deeper and more diffuse than a beat's: the title is much
+   larger, so the graded area has to be proportionally larger too. Without it a
+   near-white display serif on a bright noon sky is unreadable, and on a black
+   collapse sky a dark ink title is equally unreadable — one treatment has to
+   serve all twelve, and light-on-dark is the only one that does. */
+.spread--opener::before {
+  opacity: 1;
+  background: linear-gradient(
+      var(--scrim-dir, 90deg),
+      rgba(12, 10, 8, 0.88) 0%,
+      rgba(12, 10, 8, 0.72) 26%,
+      rgba(12, 10, 8, 0.34) 54%,
+      rgba(12, 10, 8, 0.05) 80%
+    ),
+    linear-gradient(180deg, rgba(12, 10, 8, 0.45) 0%, rgba(12, 10, 8, 0) 38%);
+}
+
+.spread--opener.spread--center::before {
+  background: radial-gradient(
+    ellipse 72% 58% at 50% 50%,
+    rgba(12, 10, 8, 0.86) 0%,
+    rgba(12, 10, 8, 0.58) 46%,
+    rgba(12, 10, 8, 0.04) 82%
+  );
+}
+
+/* ─── Split (comparative) beats ────────────────────────────────────────────
+   Two arguments, side by side, with a rule between them. The columns are the
+   point: this is the layout that says "these are in tension".
+
+   The rule is a border on the second column, not a grid track. A `1px` middle
+   column with no element in it means the two children land in columns 1 and 2,
+   and the second one inherits a one-pixel width. */
+.split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+@media (min-width: 48rem) {
+  .split {
+    grid-template-columns: 1fr 1fr;
+    gap: 0 2.25rem;
+  }
+
+  .split__col + .split__col {
+    border-left: 1px solid var(--paper-300);
+    padding-left: 2.25rem;
+  }
+}
+
+.split__col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  min-width: 0;
+}
+
+.split__col + .split__col {
+  margin-top: 1.75rem;
+}
+
+@media (min-width: 48rem) {
+  .split__col + .split__col {
+    margin-top: 0;
+  }
+}
+
+/* ─── Timeline ────────────────────────────────────────────────────────────
+   A chronology is a vertical rail. Entries hang off it; the year is set in
+   mono above the event so a reader can scan the column without reading it. */
+.timeline {
+  list-style: none;
+  position: relative;
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--paper-300);
+}
+
+.timeline__entry {
+  position: relative;
+  padding-block: 0 1.35rem;
+}
+
+.timeline__entry:last-child {
+  padding-bottom: 0;
+}
+
+.timeline__entry::before {
+  content: '';
+  position: absolute;
+  left: calc(-1.5rem - 3.5px);
+  top: 0.45rem;
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(250, 246, 238, 0.9);
+}
+
+.timeline__year {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 0.2rem;
+}
+
+.timeline__event {
+  font-size: var(--step-0);
+  line-height: 1.55;
+  color: var(--ink-600);
+  max-width: none;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   RESPONSIVE ART DIRECTION
+   Four genuinely different compositions, chosen by available space rather than
+   by device name.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── Tablet landscape and below: one column, subject above, plate below ────── */
+@media (max-width: 63.99rem) {
+  .spread,
+  .spread--held {
+    min-height: auto;
+    padding-block: clamp(4rem, 12vh, 7rem);
+  }
+
+  .spread__grid,
+  .opener__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .spread--left .spread__grid > .spread__body,
+  .spread--right .spread__grid > .spread__body,
+  .spread--center .spread__grid > .spread__body,
+  .spread--wide .spread__grid > .spread__body,
+  .spread--held .spread__grid > .spread__body,
+  .opener--left .opener__body,
+  .opener--right .opener__body,
+  .opener--center .opener__body {
+    grid-column: 1 / -1;
+  }
+
+  /* The scrim becomes vertical. There is no third to protect once the text
+     spans the full width, so the whole band is graded and the subject reads
+     through the top of it. */
+  .spread::before,
+  .spread--held::before {
+    --scrim-dir: 180deg;
+    inset: -4vh -2vw;
+    background: linear-gradient(
+      180deg,
+      rgba(16, 13, 10, 0.14) 0%,
+      rgba(16, 13, 10, 0.5) 18%,
+      rgba(16, 13, 10, 0.72) 46%,
+      rgba(16, 13, 10, 0.76) 100%
+    );
+  }
+
+  .spread--center::before {
+    background: linear-gradient(
+      180deg,
+      rgba(16, 13, 10, 0.18) 0%,
+      rgba(16, 13, 10, 0.55) 22%,
+      rgba(16, 13, 10, 0.74) 100%
+    );
+  }
+
+  /* The opener still needs a deeper grade than a beat: its type is four times
+     the size, so the protected area has to be four times as large. */
+  .spread--opener::before {
+    opacity: 1;
+    background: linear-gradient(
+      180deg,
+      rgba(12, 10, 8, 0.5) 0%,
+      rgba(12, 10, 8, 0.42) 26%,
+      rgba(12, 10, 8, 0.76) 58%,
+      rgba(12, 10, 8, 0.88) 100%
+    );
+  }
+
+  .plate {
+    max-width: 40rem;
+  }
+
+  .opener__title {
+    max-width: 20ch;
+  }
+}
+
+/* ── Phone: the reading plate is the design. The scene is a window above it. ─
+   This is not desktop content with a smaller type size. The camera lifts the
+   subject into the upper third (see ScrollCamera's portrait staging), and the
+   band is sized so that the top ~35% of the viewport is always open scene with
+   the plate occupying the lower part. Letting bands collapse to `min-height:
+   auto` — as an earlier revision did — leaves the world visible only through
+   the gaps between beats, which throws away the entire point of the format. */
+@media (max-width: 47.99rem) {
+  :root {
+    --band-y: clamp(2.5rem, 7vh, 4rem);
+    --plate-pad: 1.15rem;
+  }
+
+  .spread,
+  .spread--held {
+    padding-block: clamp(2.5rem, 7vh, 4rem);
+  }
+
+  .spread--beat {
+    min-height: 92svh;
+    align-content: end;
+    padding-bottom: clamp(3rem, 8vh, 5rem);
+  }
+
+  .spread--opener {
+    min-height: 86svh;
+  }
+
+  .spread--held {
+    min-height: 96svh;
+  }
+
+  /* The scrim runs from open scene at the top to a graded plate at the bottom,
+     which is the mobile equivalent of the desktop third. */
+  .spread::before,
+  .spread--held::before {
+    background: linear-gradient(
+      180deg,
+      rgba(16, 13, 10, 0) 0%,
+      rgba(16, 13, 10, 0.12) 14%,
+      rgba(16, 13, 10, 0.5) 32%,
+      rgba(16, 13, 10, 0.78) 52%,
+      rgba(16, 13, 10, 0.84) 100%
+    );
+  }
+
+  .spread__grid,
+  .opener__grid {
+    column-gap: 0;
+  }
+
+  .plate {
+    max-width: none;
+    border-radius: 2px;
+  }
+
+  /* The margin mark is a bit more present on a narrow plate — it is the only
+     thing telling the reader where the text ends. */
+  .plate::before {
+    top: 0.9rem;
+    bottom: 0.9rem;
+    width: 3px;
+  }
+
+  .opener__ordinal {
+    gap: 0.6rem;
+    font-size: 0.6875rem;
+  }
+
+  .opener__title {
+    max-width: 15ch;
+  }
+
+  .opener__rule {
+    margin-top: 1.25rem;
+  }
+}
+
+/* ── Ultrawide: hold the measure, let the scene breathe ─────────────────────
+   At 21:9 the subject has room to travel, so the editorial column stops
+   expanding and drifts toward the outer margin instead. */
+@media (min-width: 100rem) {
+  .spread--left .spread__grid > .spread__body {
+    grid-column: 1 / span 5;
+  }
+  .spread--right .spread__grid > .spread__body {
+    grid-column: 8 / span 5;
+  }
+  .spread--center .spread__grid > .spread__body,
+  .spread--held .spread__grid > .spread__body {
+    grid-column: 4 / span 6;
+  }
+  .opener--left .opener__body {
+    grid-column: 1 / span 6;
+  }
+  .opener--right .opener__body {
+    grid-column: 7 / span 6;
+  }
+}
+
+/* ── Short viewports (laptops at 720–800px tall) ─────────────────────────────
+   Vertical space, not width, is the scarce resource here. Type steps down and
+   the band padding tightens; the composition is unchanged. */
+@media (min-width: 64rem) and (max-height: 52rem) {
+  :root {
+    --band-y: clamp(3rem, 8vh, 5rem);
+  }
+}
+
+
+/* ─── Reference list ───────────────────────────────────────────────────── */
+.reference-list {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+}
+
+.reference-list .reference + .reference {
+  border-top: none;
+}
+
+/* ─── Colophon ─────────────────────────────────────────────────────────── */
+.colophon {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--paper-300);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--ink-600);
+  max-width: var(--measure);
+}
+
+.colophon__note {
+  margin-top: 0.6rem;
+  font-size: 0.75rem;
+  color: var(--ink-400);
+}
+
+/* The references band reads as paper, not as a scene: the plate runs the full
+   measure and the scrim lifts to almost nothing. */
+.spread--refs {
+  --scrim-strength: 0.34;
+}
+
+.spread--refs .spread__body {
+  grid-column: 3 / span 8;
+}
+
+@media (max-width: 63.99rem) {
+  .spread--refs .spread__body {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 100rem) {
+  .spread--refs .spread__body {
+    grid-column: 4 / span 6;
+  }
+}
+
+/* A held band has ONE measure and ONE voice. The prose, the pull quote and the
+   attribution all resolve against the same centred column, so the band reads as
+   a single composed moment rather than as three centred boxes of different
+   widths stacked on each other — and all of it is set in on-scene ink, because
+   a held band has no plate and the scrim behind it is a gradient, not a fill. */
+.spread--held .spread__body {
+  max-width: 44rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.spread--held .beat__head {
+  text-align: center;
+}
+
+.spread--held .beat__kicker {
+  text-align: center;
+  color: #f0a583;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.8);
+}
+
+.spread--held .beat__title {
+  color: var(--paper-000);
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.6);
+}
+
+.spread--held .beat__flow {
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.spread--held .prose {
+  width: 100%;
+  max-width: var(--measure);
+  color: var(--scrim-ink-soft);
+  text-align: left;
+  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.7);
+}
+
+.spread--held .prose--lede {
+  color: var(--scrim-ink);
+}
+
+.spread--held .evidence {
+  color: var(--scrim-ink-faint);
+  text-shadow: none;
+}
+
+.spread--held .aside {
+  width: 100%;
+  max-width: var(--measure);
+  border-top-color: rgba(246, 241, 230, 0.28);
+  text-align: left;
+}
+
+.spread--held .aside__label {
+  color: #f0a583;
+}
+
+.spread--held .aside__body {
+  color: var(--scrim-ink-soft);
+  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.7);
+}
+
+.spread--held .pull,
+.spread--held .statement {
+  max-width: 30ch;
+  margin-inline: auto;
+}
+
+/* An image inside a held band sits directly on the scene with no plate behind
+   it, so its caption needs the same on-scene ink treatment as the prose. Dark
+   caption text on a graded scrim is the single most easily missed failure in a
+   layout that otherwise reads fine. */
+.spread--held .plate-figure {
+  max-width: 20rem;
+  margin-inline: auto;
+}
+
+.spread--held .plate-figure__caption {
+  border-top-color: rgba(246, 241, 230, 0.24);
+  text-align: left;
+}
+
+.spread--held .plate-figure__year {
+  color: #f0a583;
+}
+
+.spread--held .plate-figure__meta,
+.spread--held .plate-figure__text {
+  color: var(--scrim-ink-soft);
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.8);
+}
+
+.spread--held .plate-figure__source {
+  color: var(--scrim-ink-faint);
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.8);
+}

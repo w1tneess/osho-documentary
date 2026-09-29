@@ -1,20 +1,26 @@
 {
-  "name": "osho",
+  "name": "osho-documentary",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "An evidence-based interactive documentary on Osho Rajneesh (1931-1990), built as semantic HTML over a scroll-driven 3D world.",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "typecheck": "tsc -b",
+    "validate:content": "tsx scripts/verify-content.ts",
+    "build": "npm run validate:content && tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "check": "npm run lint && npm run typecheck && npm run validate:content",
+    "preview": "vite preview",
+    "optimize:images": "tsx scripts/optimize-images.ts"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "three": "^0.186.1"
+    "three": "^0.186.1",
+    "zustand": "^5.0.15"
   },
   "devDependencies": {
     "@types/node": "^24.13.3",
@@ -23,6 +29,8 @@
     "@types/three": "^0.186.0",
     "@vitejs/plugin-react": "^6.1.1",
     "oxlint": "^1.81.0",
+    "sharp": "^0.35.5",
+    "ts-morph": "^28.0.0",
     "tsx": "^4.23.15",
     "typescript": "~6.0.2",
     "vite": "^8.3.0"

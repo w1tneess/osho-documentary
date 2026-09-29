@@ -1,0 +1,170 @@
+/**
+ * Archival image pipeline.
+ *
+ * The source photographs are archival scans at print resolution, and they live
+ * in `source/images/` rather than `public/` so they never ship: a 900px
+ * original displayed at 240 CSS pixels is 267KB of pixels for 34KB of image.
+ * Only the derivatives land in `public/`, and only those are deployed.
+ *
+ * Archival material is also treated as archival material: the desaturation is
+ * applied in CSS, not baked in here, so the original colour survives for anyone
+ * who wants it.
+ *
+ * Output:
+ *   public/images/osho/<name>-<width>.webp   modern format
+ *   public/images/osho/<name>-<width>.jpg     fallback, still sized
+ *   src/entities/content/imageManifest.ts      intrinsic sizes for the UI
+ */
+
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import sharp from 'sharp'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const root = path.resolve(__dirname, '..')
+/** Originals: kept in the repository, never served. */
+const srcDir = path.join(root, 'source/images')
+/** Derivatives: the only images that reach a browser. */
+const outDir = path.join(root, 'public/images/osho')
+
+/**
+ * Widths are chosen per role, not per file: a portrait is displayed at 240px
+ * (15rem), a landscape plate at 544px (34rem), and the hero at 480px on a
+ * 2x display. Emitting two steps for each covers 1x and 2x with a 30% margin
+ * for the crop the layout applies.
+ */
+const WIDTHS = [400, 900, 1600]
+
+/**
+ * Generated variants are recognised by their exact suffix. A looser pattern such
+ * as /-[0-9]+\./ also matches legitimate source names — `osho-festival-1983.jpg`
+ * is a photograph, not a 1983px derivative — and quietly drops it from the
+ * build. Only the widths this script can emit count as generated.
+ */
+const GENERATED = new RegExp(`-(?:${WIDTHS.join('|')})\\.(?:webp|jpg)$`, 'i')
+
+fs.mkdirSync(outDir, { recursive: true })
+
+const files = fs.existsSync(srcDir)
+  ? fs.readdirSync(srcDir)
+      .filter((f) => /\.(jpe?g|png)$/i.test(f))
+      .filter((f) => !GENERATED.test(f))
+  : []
+
+if (files.length === 0) {
+  console.error('No source images found in source/images')
+  process.exit(1)
+}
+
+interface Entry {
+  base: string
+  width: number
+  height: number
+  variants: string[]
+}
+
+const manifest: Entry[] = []
+
+for (const file of files) {
+  const base = file.replace(/\.(jpe?g|png)$/i, '')
+  const input = path.join(srcDir, file)
+  const image = sharp(input)
+  const meta = await image.metadata()
+  const sourceWidth = meta.width ?? 0
+
+  const steps = WIDTHS.filter((w) => w <= sourceWidth)
+  // Always emit at least one step, even if the source is smaller than the
+  // smallest target: a manifest entry with no variants is an unresolvable src.
+  if (steps.length === 0) steps.push(sourceWidth)
+
+  const variants: string[] = []
+
+  for (const width of steps) {
+    const resized = sharp(input).resize({ width, withoutEnlargement: true })
+    const info = await resized.clone().toBuffer({ resolveWithObject: true })
+
+    const webpName = `${base}-${width}.webp`
+    await sharp(info.data).webp({ quality: 78, effort: 5 }).toFile(path.join(outDir, webpName))
+    variants.push(webpName)
+
+    // A JPEG fallback is not a nicety: it is what Safari < 16 and every
+    // crawler that rasterises the page will actually request.
+    if (width === steps[steps.length - 1] || width === 1600) {
+      const jpgName = `${base}-${width}.jpg`
+      await sharp(info.data)
+        .jpeg({ quality: 82, progressive: true, mozjpeg: true })
+        .toFile(path.join(outDir, jpgName))
+      variants.push(jpgName)
+    }
+  }
+
+  const largest = variants
+    .filter((v) => v.endsWith('.webp'))
+    .sort((a, b) => Number(b.match(/-(\d+)\./)?.[1] ?? 0) - Number(a.match(/-(\d+)\./)?.[1] ?? 0))[0]
+  const dims = await sharp(path.join(outDir, largest)).metadata()
+
+  manifest.push({
+    base,
+    // Intrinsic size is the LARGEST emitted step, not the smallest: an <img>
+    // with width/height establishes an aspect ratio for layout, and the
+    // browser divides by the density descriptor to get the CSS box. Using the
+    // smallest step would reserve a box half the size the image actually fills.
+    width: dims.width ?? sourceWidth,
+    height: dims.height ?? 0,
+    variants,
+  })
+
+  const original = fs.statSync(input).size
+  const emitted = steps.reduce(
+    (sum, w) => sum + fs.statSync(path.join(outDir, `${base}-${w}.webp`)).size,
+    0
+  )
+  console.log(
+    `  ${file.padEnd(28)} ${String(Math.round(original / 1024)).padStart(4)}KB source` +
+      `  ->  ${String(Math.round(emitted / 1024)).padStart(4)}KB shipped` +
+      `  [${steps.join(', ')}px]`
+  )
+}
+
+/** 'osho-portrait-900.webp' -> '/images/osho/osho-portrait' */
+const DIR = '/images/osho/'
+
+/** 'osho-portrait-900.webp' -> '/images/osho/osho-portrait' */
+const stripVariant = (v: string) => `${DIR}${v.replace(/-\d+\.(webp|jpg)$/, '')}`
+
+const out = `/**
+ * Generated by scripts/optimize-images.ts. Do not edit by hand.
+ *
+ * Intrinsic dimensions and variant lists for the archival plates, keyed by the
+ * logical plate path the content blocks declare. Emitting these into the bundle
+ * is what lets every <img> carry a real width/height and a srcset, which is the
+ * difference between a page that reserves the right box before the image
+ * arrives and one that jumps as it loads.
+ */
+
+export interface PlateSource {
+  width: number
+  height: number
+  webp: string[]
+  fallback: string | null
+}
+
+export const IMAGE_MANIFEST: Record<string, PlateSource> = {
+${manifest
+  .map((m) => {
+    const webp = m.variants.filter((v) => v.endsWith('.webp'))
+    const jpg = m.variants.find((v) => v.endsWith('.jpg')) ?? null
+    return `  '${stripVariant(m.base)}': {
+    width: ${m.width},
+    height: ${m.height},
+    webp: [${webp.map((v) => `'${DIR}${v}'`).join(', ')}],
+    fallback: ${jpg ? `'${DIR}${jpg}'` : 'null'},
+  },`
+  })
+  .join('\n')}
+}
+`
+
+fs.writeFileSync(path.join(root, 'src/entities/content/imageManifest.ts'), out, 'utf8')
+console.log(`\n✓ ${manifest.length} images processed, manifest written.`)

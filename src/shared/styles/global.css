@@ -1,0 +1,85 @@
+/* ─────────────────────────────────────────────────────────
+   OSHO DOCUMENTARY — STYLESHEET
+   Cascade order matters and is deliberate:
+
+     tokens      design decisions. No rules, only custom properties.
+     base        reset, document defaults, accessibility primitives.
+     layout      the composition system: grid, bands, scrims, plate, rhythm.
+     hero        the opening frame.
+     editorial   block-level typography and image roles.
+     chrome      interface: navigation, rail, drawer, progress.
+
+   Anything a component needs to know about layout belongs in `layout`. Anything
+   about the shape of a piece of content belongs in `editorial`.
+   ───────────────────────────────────────────────────────── */
+
+@import './tokens.css';
+@import './base.css';
+@import './layout.css';
+@import './hero.css';
+@import './editorial.css';
+@import './chrome.css';
+
+/* ─── Print: the documentary as an archival document ───────────────────────
+   A real feature, not an afterthought. The 3D world is decorative and is
+   dropped; what remains is a readable, correctly paginated long-form text. */
+@media print {
+  .canvas-container,
+  .grade,
+  .nav,
+  .rail,
+  .progress,
+  .spread::before,
+  .hero::before {
+    display: none !important;
+  }
+
+  :root {
+    --plate-bg: none;
+    --plate-shadow: none;
+    --scrim-strength: 0;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  html {
+    background: #fff;
+  }
+
+  .spread,
+  .spread--beat,
+  .spread--held,
+  .spread--opener,
+  .hero {
+    min-height: auto;
+    padding-block: 1.5rem;
+    break-inside: avoid-page;
+  }
+
+  .spread__grid,
+  .opener__grid,
+  .hero__grid {
+    display: block;
+  }
+
+  .plate {
+    background: none;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .pull__text,
+  .statement,
+  .hero__title {
+    color: #000;
+  }
+
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.75em;
+    color: #444;
+  }
+}

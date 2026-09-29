@@ -1,18 +1,15 @@
 # Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-node_modules
+build
 dist
 dist-ssr
 *.local
 
-# Editor directories and files
+# Dependencies
+node_modules
+
+.agents
+
+# Editor
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -23,10 +20,18 @@ dist-ssr
 *.sln
 *.sw?
 
-.agents/
-source/
-*.md
-!README.md
-*.html
-!index.html
-.oxlintrc.json
+# Environment
+.env
+.env.*
+!.env.example
+
+# Tooling caches
+.tsbuildinfo
+*.tsbuildinfo
+.eslintcache
+.oxlintcache
+.vite
+
+# Scratch
+*.log
+npm-debug.log*
