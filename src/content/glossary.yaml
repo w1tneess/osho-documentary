@@ -1,0 +1,75 @@
+# Glossary — Osho Documentary
+#
+# Terms auto-link on first use per page with a definition popover.
+
+- id: sannyasin
+  term: 'Sannyasin'
+  definition: "A disciple or initiate of Osho. Neo-sannyasins took new names (often prefixed 'Ma' for women or 'Swami' for men) and traditionally wore orange/maroon clothing."
+  aka: ['Neo-sannyasin', 'Rajneeshee']
+  cite: ['carter-2011']
+
+- id: satsang
+  term: 'Satsang'
+  definition: "A gathering in the presence of a spiritual teacher. In Osho's communities, satsang typically involved silent sitting, music, and discourse."
+  aka: []
+  cite: ['osho-com-archives']
+
+- id: darshan
+  term: 'Darshan'
+  definition: 'A private or semi-private audience with Osho. During Pune ashram years, darshan sessions were intimate meetings where disciples received personal guidance.'
+  aka: []
+  cite: ['carter-2011']
+
+- id: dynamic-meditation
+  term: 'Dynamic Meditation'
+  definition: 'A five-stage active meditation technique introduced by Osho in 1970, combining rapid breathing, cathartic movement, jumping with arms raised, sudden stillness, and celebratory dance.'
+  aka: ['Dynamic']
+  cite: ['osho-com-archives', 'carter-2011']
+
+- id: kundalini-meditation
+  term: 'Kundalini Meditation'
+  definition: "A four-stage evening meditation involving shaking, dancing, sitting still, and lying down. One of Osho's most widely practiced techniques."
+  aka: ['Kundalini']
+  cite: ['osho-com-archives']
+
+- id: commune
+  term: 'Commune'
+  definition: 'An intentional community organized around shared spiritual practice and communal living. Osho established communes in Pune and Oregon.'
+  aka: ['Ashram']
+  cite: ['carter-2011']
+
+- id: rajneeshpuram
+  term: 'Rajneeshpuram'
+  definition: 'An incorporated city built by the Rajneesh movement on a 64,229-acre ranch in Wasco County, Oregon (1981–1985). Population peaked at approximately 7,000.'
+  aka: ['Big Muddy Ranch']
+  cite: ['usdoj-cr85-0150', 'fitzgerald-1986']
+
+- id: zorba-the-buddha
+  term: 'Zorba the Buddha'
+  definition: "Osho's central concept: a synthesis of material enjoyment (Zorba, from Kazantzakis' novel) and spiritual awakening (the Buddha). Rejected the false choice between worldly success and spiritual depth."
+  aka: []
+  cite: ['osho-com-archives', 'urban-2015']
+
+- id: bhagwan
+  term: 'Bhagwan'
+  definition: "Sanskrit title meaning 'The Blessed One' or 'God.' Used by Osho from 1971 to 1989 (as Bhagwan Shree Rajneesh) before adopting the name 'Osho.'"
+  aka: ['Bhagwan Shree Rajneesh']
+  cite: ['britannica-osho']
+
+- id: mala
+  term: 'Mala'
+  definition: "A necklace of 108 wooden beads with a locket containing Osho's photograph, worn by sannyasins as a symbol of initiation."
+  aka: []
+  cite: ['carter-2011']
+
+- id: encounter-group
+  term: 'Encounter group'
+  definition: 'A form of group therapy used at the Pune ashram involving confrontational techniques aimed at breaking down emotional defenses. Controversial for lack of professional boundaries.'
+  aka: ['Encounter therapy']
+  cite: ['carter-2011', 'milne-1986']
+
+- id: alford-plea
+  term: 'Alford plea'
+  definition: 'A legal plea in which a defendant does not admit guilt but acknowledges that sufficient evidence exists for a conviction. Osho entered an Alford plea to immigration fraud charges in 1985.'
+  aka: []
+  cite: ['usdoj-cr85-0150']

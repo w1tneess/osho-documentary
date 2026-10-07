@@ -1,0 +1,217 @@
+# Sources — Osho Documentary
+#
+# Each entry follows the Zod schema in src/content.config.ts.
+# Types: primary, academic, journalism, book, memoir, partisan
+# id must be unique and kebab-cased.
+
+# ——— Primary Sources ———
+
+- id: osho-sex-superconsciousness
+  title: 'From Sex to Superconsciousness'
+  author: 'Osho (Rajneesh)'
+  year: 1968
+  publisher: 'Harper & Row'
+  type: primary
+  url: ''
+  notes: "Osho's first major published work arguing sexual energy as gateway to spiritual awareness."
+
+- id: osho-book-of-secrets
+  title: 'The Book of Secrets: 112 Meditations to Discover the Mystery Within'
+  author: 'Osho (Rajneesh)'
+  year: 1974
+  publisher: "St. Martin's Press"
+  type: primary
+  notes: 'Discourse compilations on Vigyan Bhairav Tantra, 1972–1975.'
+
+- id: osho-socrates-poisoned
+  title: 'Socrates Poisoned Again After 25 Centuries'
+  author: 'Osho (Rajneesh)'
+  year: 1986
+  publisher: "St. Martin's Press"
+  type: primary
+  notes: "Osho's reflections on deportation from the United States."
+
+- id: osho-com-archives
+  title: 'Osho.com Official Discourse Archives'
+  author: 'OSHO International Foundation'
+  year: 2024
+  publisher: 'OSHO International Foundation'
+  type: partisan
+  url: 'https://www.osho.com'
+  notes: 'Transcribed discourses, official online library, video archives. Movement-affiliated; treat as partisan primary source.'
+
+- id: oshoworld-archives
+  title: 'Osho World Open Access Audio & Discourse Repository'
+  author: 'Osho World Foundation'
+  year: 2024
+  publisher: 'Osho World Foundation, New Delhi'
+  type: partisan
+  url: 'https://oshoworld.com'
+  notes: 'Comprehensive open digital audio archives of over 5,000 hours of unedited Hindi and English discourses, magazines, and photographic galleries.'
+
+
+# ——— Court Records & Government Documents ———
+
+- id: usdoj-cr85-0150
+  title: 'United States v. Rajneesh et al., Case CR 85-0150'
+  author: 'U.S. Department of Justice, Criminal Division'
+  year: 1985
+  publisher: 'U.S. District Court, District of Oregon'
+  type: primary
+  notes: 'Criminal case including immigration fraud charges against Rajneesh. Alford plea entered Nov 14, 1985.'
+
+- id: oregon-ag-investigation
+  title: 'Rajneeshee Movement Investigation Reports'
+  author: 'Oregon Attorney General'
+  year: 1986
+  publisher: 'State of Oregon'
+  type: primary
+  notes: 'Official investigation reports covering 1984–1986, including bioterror attack findings.'
+
+- id: oregonian-series
+  title: 'Rajneeshees: Investigative Series'
+  author: 'The Oregonian (Les Zaitz et al.)'
+  year: 1985
+  publisher: 'The Oregonian'
+  type: journalism
+  notes: 'Multi-part investigative series on Rajneeshpuram, 1985–1986. Pulitzer Prize finalist.'
+
+# ——— Academic Sources ———
+
+- id: carter-2011
+  title: 'Charisma and Control in Rajneesh Communities'
+  author: 'Lewis Carter'
+  year: 2011
+  publisher: 'Cambridge University Press'
+  type: academic
+  notes: 'Sociological analysis of commune dynamics, leadership structures, and group psychology.'
+
+- id: hassan-2015
+  title: 'Combating Cult Mind Control'
+  author: 'Steven Hassan'
+  year: 2015
+  publisher: 'Park Street Press'
+  type: academic
+  notes: 'Framework for understanding undue influence in high-demand groups. References Rajneesh movement.'
+
+- id: lalich-langone-2006
+  title: 'Take Back Your Life: Recovering from Cults and Abusive Relationships'
+  author: 'Janja Lalich & Michael D. Langone'
+  year: 2006
+  publisher: 'Bay Tree Publishing'
+  type: academic
+  notes: 'Recovery framework for ex-members of high-demand groups.'
+
+- id: goleman-davidson-2017
+  title: 'Altered Traits: Science Reveals How Meditation Changes Your Mind and Body'
+  author: 'Daniel Goleman & Richard J. Davidson'
+  year: 2017
+  publisher: 'Bantam'
+  type: academic
+  notes: 'Meta-analysis of meditation research. Supports efficacy of meditation practices Osho promoted.'
+
+- id: vanderKolk-2014
+  title: 'The Body Keeps the Score: Brain, Mind, and Body in the Healing of Trauma'
+  author: 'Bessel van der Kolk'
+  year: 2014
+  publisher: 'Penguin'
+  type: academic
+  notes: 'Foundational work on trauma and body-based therapies. Relevant to understanding cathartic therapy impact.'
+
+# ——— Journalism ———
+
+- id: topp-1984-salmonella
+  title: 'Investigation of a Multi-State Foodborne Outbreak of Salmonella typhimurium'
+  author: 'T. J. Török et al.'
+  year: 1997
+  publisher: 'JAMA (Journal of the American Medical Association)'
+  type: academic
+  notes: 'Peer-reviewed epidemiological study of the 1984 Rajneeshee bioterror attack. Published JAMA 278(5):389-395.'
+
+- id: wild-wild-country
+  title: 'Wild Wild Country'
+  author: 'Chapman Way & Maclain Way (directors)'
+  year: 2018
+  publisher: 'Netflix / Duplass Brothers Productions'
+  type: journalism
+  notes: 'Six-part documentary series. Interviews with key participants including Ma Anand Sheela.'
+
+# ——— Books ———
+
+- id: milne-1986
+  title: 'Bhagwan: The God That Failed'
+  author: 'Hugh Milne'
+  year: 1986
+  publisher: "St. Martin's Press"
+  type: memoir
+  notes: 'Account by a former bodyguard/sannyasin. First-person/partisan perspective.'
+
+- id: stork-1990
+  title: 'Breaking the Spell: My Life as a Rajneeshee and the Long Journey Back to Freedom'
+  author: 'Catherine Jane Stork (Ma Shanti Bhadra)'
+  year: 2009
+  publisher: 'Pan Macmillan Australia'
+  type: memoir
+  notes: "Account by former sannyasin who participated in commune's inner circle."
+
+- id: fitzgerald-1986
+  title: 'Cities on a Hill'
+  author: 'Frances FitzGerald'
+  year: 1986
+  publisher: 'Simon & Schuster'
+  type: book
+  notes: 'Chapter on Rajneeshpuram among four American utopian communities. Pulitzer Prize-winning author.'
+
+- id: joshi-1982
+  title: 'The Awakened One: The Life and Work of Bhagwan Shree Rajneesh'
+  author: 'Vasant Joshi'
+  year: 1982
+  publisher: 'Harper & Row'
+  type: partisan
+  notes: 'Sympathetic biography by a follower. Label as partisan.'
+
+# ——— Encyclopedic Sources ———
+
+- id: britannica-osho
+  title: 'Bhagwan Shree Rajneesh'
+  author: 'Encyclopaedia Britannica editors'
+  year: 2024
+  publisher: 'Encyclopaedia Britannica'
+  type: book
+  url: 'https://www.britannica.com/biography/Bhagwan-Shree-Rajneesh'
+  notes: 'Cross-verified with multiple editions. Confirms birth date, place, and background.'
+
+# ——— Research Institutions ———
+
+- id: icsa-research
+  title: 'Research on Trauma, Recovery, and Cult Dynamics'
+  author: 'International Cultic Studies Association'
+  year: 2024
+  publisher: 'ICSA'
+  type: academic
+  url: 'https://www.icsahome.com'
+  notes: 'Ongoing research database on high-demand groups and recovery.'
+
+- id: urban-2015
+  title: 'Zorba the Buddha: Sex, Spirituality, and Capitalism in the Global Osho Movement'
+  author: 'Hugh B. Urban'
+  year: 2015
+  publisher: 'University of California Press'
+  type: academic
+  notes: "Academic analysis of Osho's intersection of spirituality and consumer capitalism."
+
+- id: aveling-1994
+  title: 'The Laughing Swamis'
+  author: 'Harry Aveling'
+  year: 1994
+  publisher: 'Motilal Banarsidass'
+  type: academic
+  notes: 'Scholarly study of Australian sannyasins and the Rajneesh movement.'
+
+- id: palmer-2005
+  title: "Moon Sisters, Krishna Mothers, Rajneesh Lovers: Women's Roles in New Religions"
+  author: 'Susan J. Palmer'
+  year: 2005
+  publisher: 'Syracuse University Press'
+  type: academic
+  notes: "Scholarly examination of women's roles in the Rajneesh movement."

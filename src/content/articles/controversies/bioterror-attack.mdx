@@ -1,0 +1,92 @@
+---
+title: 'The 1984 Salmonella Bioterror Attack'
+slug: 'controversies/bioterror-attack'
+summary: 'An intentional contamination of salad bars in The Dalles, Oregon, by leaders of the Rajneeshpuram commune, which sickened over 750 people.'
+lastReviewed: '2024-03-21'
+status: 'published'
+category: ['Controversies']
+seeAlso: ['movement/rajneeshpuram']
+---
+
+import Cite from '../../../components/article/Cite.tsx';
+import Claim from '../../../components/article/Claim.tsx';
+import Map from '../../../components/interactive/Map.tsx';
+import Timeline from '../../../components/interactive/Timeline.tsx';
+import PerspectiveLens from '../../../components/interactive/PerspectiveLens.tsx';
+
+The 1984 Rajneeshee bioterror attack was the intentional contamination of salad bars at ten restaurants in The Dalles, Oregon, with _Salmonella typhimurium_. The attack was orchestrated by Ma Anand Sheela and other leaders of the <GlossaryTerm id="rajneeshpuram" text="Rajneeshpuram" /> commune in a bid to influence a local election.
+
+<Claim level="established" cite={['topp-1984-salmonella', 'usdoj-cr85-0150']}>
+  Over 750 people contracted salmonellosis, with 45 requiring hospitalization
+</Claim>
+. At the time, it was the largest biological terrorist attack in United States history
+<Cite id="oregon-ag-investigation" />.
+
+<Map focusIds={['the-dalles', 'rajneeshpuram']} height="300px" zoom={8} />
+
+## The Plot
+
+Tensions between the residents of Rajneeshpuram and the local population of Wasco County had reached a breaking point by 1984. Seeking to gain political control of the county by suppressing voter turnout on election day, Sheela's inner circle devised a plan to sicken voters <Cite id="carter-2011" />.
+
+The group first acquired _Salmonella_ bacteria from a medical supplier and cultured it in a laboratory within the commune. As a "trial run," they began contaminating local restaurant salad bars and water supplies in The Dalles starting in September 1984 <Cite id="oregon-ag-investigation" />.
+
+## Discovery and Investigation
+
+The outbreak was initially investigated by the CDC, which did not immediately suspect foul play. However, after Sheela fled the commune in September 1985, Osho broke his silence and publicly accused her of orchestrating the attacks <Cite id="usdoj-cr85-0150" />.
+
+Subsequent raids by the FBI and Oregon State Police discovered a clandestine biological warfare laboratory and a glass vial containing a _Salmonella_ culture that genetically matched the strain from the outbreak <Cite id="oregonian-series" />.
+
+<PerspectiveLens
+  topicId="osho-complicity"
+  title="Was Osho Complicit?"
+  perspectives={[
+    {
+      id: 'investigators',
+      name: 'Federal Investigators',
+      sourceType: 'court',
+      summary:
+        'Found insufficient direct evidence to indict Osho for the bioterror plot, though he created the environment that enabled it.',
+    },
+    {
+      id: 'critics',
+      name: 'Critics and Analysts',
+      sourceType: 'academic',
+      summary:
+        'Argue that Osho’s absolute authority and isolationist policies directly facilitated Sheela’s crimes, making him morally responsible.',
+    },
+    {
+      id: 'osho',
+      name: 'Osho',
+      sourceType: 'follower',
+      summary: 'Maintained total ignorance of the plot, blaming Sheela’s ambition and criminality.',
+    },
+  ]}
+>
+  <div slot="investigators">
+    <p>
+      Despite an extensive investigation, authorities lacked the evidence to charge Osho with direct
+      involvement in the biological attack. He was eventually charged only with immigration fraud{' '}
+      <Cite id="usdoj-cr85-0150" />.
+    </p>
+  </div>
+  <div slot="critics">
+    <p>
+      Analysts point out that Osho structured the community to grant Sheela unquestioned authority
+      and fostered a culture of extreme paranoia and obedience, directly enabling the attack{' '}
+      <Cite id="carter-2011" />.
+    </p>
+  </div>
+  <div slot="osho">
+    <p>
+      Osho claimed he was entirely unaware of the laboratory or the poisonings, stating that his
+      period of public silence kept him isolated from the commune's operations{' '}
+      <Cite id="osho-socrates-poisoned" />.
+    </p>
+  </div>
+</PerspectiveLens>
+
+## Convictions
+
+In 1986, Ma Anand Sheela and Dr. Diane Yvonne Onang (Ma Anand Puja) pleaded guilty to charges related to the attack, among other crimes. <Claim level="established" cite={["usdoj-cr85-0150"]}>They were sentenced to concurrent prison terms, though both served only a fraction of their sentences before being released and deported</Claim>.
+
+<Timeline track="world" limit={5} />

@@ -1,0 +1,53 @@
+# Places — Osho Documentary
+#
+# Key locations for the interactive map.
+# Coordinates are approximate centroids for the relevant location.
+
+- id: kuchwada
+  name: 'Kuchwada, Madhya Pradesh'
+  lat: 23.45
+  lng: 77.95
+  description: 'Birthplace of Chandra Mohan Jain (Osho), a village in Raisen district, Madhya Pradesh, India.'
+  relatedEvents: ['birth']
+  relatedArticles: ['life/early-years']
+
+- id: jabalpur
+  name: 'Jabalpur, Madhya Pradesh'
+  lat: 23.1815
+  lng: 79.9864
+  description: 'City where Osho studied, taught philosophy at Jabalpur University (1958–1966), and claimed enlightenment in Bhanvartal Garden (1953).'
+  relatedEvents: ['claimed-enlightenment', 'university-degree', 'jabalpur-lecturer']
+  relatedArticles: ['life/early-years', 'life/teaching-career']
+
+- id: pune-ashram
+  name: 'Koregaon Park, Pune'
+  lat: 18.5362
+  lng: 73.8936
+  description: 'Site of the Osho Ashram (now OSHO International Meditation Resort), established 1974. Operational to present day.'
+  relatedEvents: ['pune-ashram-founded', 'return-to-pune', 'death']
+  relatedArticles: ['life/pune-ashram', 'movement/']
+
+- id: rajneeshpuram
+  name: 'Rajneeshpuram, Oregon'
+  lat: 44.761
+  lng: -120.511
+  description: '64,229-acre ranch in Wasco County, Oregon. Incorporated as a city in 1982. Home to up to 7,000 residents at peak.'
+  relatedEvents:
+    ['ranch-purchased', 'rajneeshpuram-incorporated', 'bioterror-attack', 'sheela-flees']
+  relatedArticles: ['life/oregon-commune', 'controversies/bioterror-attack']
+
+- id: the-dalles
+  name: 'The Dalles, Oregon'
+  lat: 45.5946
+  lng: -121.1787
+  description: 'City nearest to Rajneeshpuram. Site of the 1984 Salmonella bioterror attack on restaurant salad bars.'
+  relatedEvents: ['bioterror-attack']
+  relatedArticles: ['controversies/bioterror-attack']
+
+- id: mumbai
+  name: 'Mumbai (Bombay)'
+  lat: 19.076
+  lng: 72.8777
+  description: 'City where Osho initiated his first group of neo-sannyasins on September 26, 1970.'
+  relatedEvents: ['first-sannyasins']
+  relatedArticles: ['movement/']

@@ -1,7 +1,0 @@
-User-agent: *
-Allow: /
-
-# Nothing here is private, and nothing should be indexed twice.
-Disallow: /dist/
-
-Sitemap: https://osho.advaitachandra.in/sitemap.xml

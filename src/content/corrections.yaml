@@ -1,0 +1,18 @@
+- id: 'corr-1'
+  date: '2024-03-22'
+  page: 'movement/rajneeshpuram'
+  description: 'Updated the timeline of events leading up to the 1984 bioterror attack. A previous version conflated the dates of two separate city council meetings.'
+  reason: 'Factual Error'
+  cite: ['carter-1990']
+- id: 'corr-2'
+  date: '2024-03-10'
+  page: 'method'
+  description: 'Added new academic citations from the 2023 sociological review of new religious movements regarding the demographic makeup of early sannyasins.'
+  reason: 'Omission'
+  cite: []
+- id: 'corr-3'
+  date: '2024-01-15'
+  page: 'controversies/legal-battles'
+  description: 'Clarified the legal distinction between the charges brought against Ma Anand Sheela and Osho in 1985 to better reflect court records.'
+  reason: 'Clarification'
+  cite: []

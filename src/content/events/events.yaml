@@ -1,0 +1,242 @@
+# Timeline Events — Osho Documentary
+#
+# Each event follows the eventSchema in content.config.ts.
+# date format: "YYYY", "YYYY-MM", or "YYYY-MM-DD"
+# datePrecision: year | month | day
+# track: life | movement | india | world
+
+# ——— Early Life ———
+
+- id: birth
+  date: '1931-12-11'
+  datePrecision: day
+  track: life
+  title: 'Born in Kuchwada'
+  summary: 'Chandra Mohan Jain born in Kuchwada village, Madhya Pradesh, into a Jain merchant family.'
+  claimLevel: established
+  cite: ['britannica-osho', 'joshi-1982']
+  place: kuchwada
+
+- id: grandfather-death
+  date: '1943'
+  datePrecision: year
+  track: life
+  title: 'Grandfather dies'
+  summary: "Osho's maternal grandfather, in whose care he was raised from age 8, dies."
+  claimLevel: reported
+  cite: ['joshi-1982']
+
+- id: grandmother-death
+  date: '1949'
+  datePrecision: year
+  track: life
+  title: 'Grandmother dies'
+  summary: "Osho's maternal grandmother dies. He later connected these early losses to his teaching on non-attachment."
+  claimLevel: reported
+  cite: ['joshi-1982']
+
+- id: claimed-enlightenment
+  date: '1953-03-21'
+  datePrecision: day
+  track: life
+  title: 'Claimed enlightenment'
+  summary: 'At age 21, Osho claimed sudden enlightenment while sitting under a tree in Bhanvartal Garden, Jabalpur.'
+  claimLevel: alleged
+  cite: ['osho-com-archives', 'britannica-osho']
+  place: jabalpur
+
+- id: university-degree
+  date: '1957'
+  datePrecision: year
+  track: life
+  title: 'Completes M.A. in Philosophy'
+  summary: 'Completes B.A. and M.A. in Philosophy from the University of Sagar, Madhya Pradesh, with distinction.'
+  claimLevel: established
+  cite: ['britannica-osho', 'joshi-1982']
+
+- id: jabalpur-lecturer
+  date: '1958'
+  datePrecision: year
+  track: life
+  title: 'Begins lecturing at Jabalpur University'
+  summary: 'Starts teaching philosophy at Jabalpur University (1958–1966), gaining reputation as unconventional educator.'
+  claimLevel: established
+  cite: ['britannica-osho', 'carter-2011']
+
+- id: sex-superconsciousness-published
+  date: '1968'
+  datePrecision: year
+  track: life
+  title: "'From Sex to Superconsciousness' published"
+  summary: 'Publishes controversial work arguing sexual energy as gateway to spiritual awareness, challenging orthodox views.'
+  claimLevel: established
+  cite: ['osho-sex-superconsciousness']
+
+# ——— Founding the Movement ———
+
+- id: dynamic-meditation
+  date: '1970'
+  datePrecision: year
+  track: movement
+  title: 'Dynamic Meditation introduced'
+  summary: 'Osho introduces Dynamic Meditation — a cathartic technique combining rapid breathing, emotional release, and silence.'
+  claimLevel: established
+  cite: ['osho-com-archives', 'carter-2011']
+
+- id: first-sannyasins
+  date: '1970-09-26'
+  datePrecision: day
+  track: movement
+  title: 'First neo-sannyasins initiated'
+  summary: 'Initiates first group of neo-sannyasins in Mumbai. Takes title Bhagwan Shree Rajneesh in 1971.'
+  claimLevel: established
+  cite: ['britannica-osho', 'carter-2011']
+
+# ——— Pune Ashram ———
+
+- id: pune-ashram-founded
+  date: '1974'
+  datePrecision: year
+  track: movement
+  title: 'Pune ashram established'
+  summary: 'With help from Ma Yoga Mukta, establishes ashram in Koregaon Park, Pune. Becomes international meditation center.'
+  claimLevel: established
+  cite: ['carter-2011', 'britannica-osho']
+  place: pune-ashram
+
+- id: india-emergency
+  date: '1975-06-25'
+  datePrecision: day
+  track: india
+  title: 'Indian Emergency declared'
+  summary: 'Prime Minister Indira Gandhi declares national emergency, suspending civil liberties. Lasts until 1977.'
+  claimLevel: established
+  cite: ['britannica-osho']
+
+# ——— Oregon ———
+
+- id: leaves-india
+  date: '1981-06-01'
+  datePrecision: day
+  track: life
+  title: 'Departs India for the United States'
+  summary: 'Leaves India for the US. Secretary Ma Anand Sheela orchestrates relocation.'
+  claimLevel: established
+  cite: ['usdoj-cr85-0150', 'carter-2011']
+
+- id: ranch-purchased
+  date: '1981-08'
+  datePrecision: month
+  track: movement
+  title: 'Oregon ranch purchased'
+  summary: 'Ma Anand Sheela purchases 64,229-acre ranch in Wasco County, Oregon, for $5.75 million.'
+  claimLevel: established
+  cite: ['usdoj-cr85-0150', 'oregonian-series']
+  place: rajneeshpuram
+
+- id: rajneeshpuram-incorporated
+  date: '1982-05'
+  datePrecision: month
+  track: movement
+  title: 'Rajneeshpuram incorporated as a city'
+  summary: 'The ranch community is incorporated as the city of Rajneeshpuram in May 1982.'
+  claimLevel: established
+  cite: ['usdoj-cr85-0150', 'fitzgerald-1986']
+  place: rajneeshpuram
+
+- id: bioterror-attack
+  date: '1984-09-09'
+  datePrecision: day
+  track: movement
+  title: 'Salmonella bioterror attack'
+  summary: "Members of Sheela's inner circle contaminate 10 salad bars in The Dalles, Oregon. 751 sickened, 45 hospitalized. Largest bioterror attack in US history at the time."
+  claimLevel: established
+  cite: ['usdoj-cr85-0150', 'oregon-ag-investigation', 'topp-1984-salmonella']
+  place: the-dalles
+
+- id: sheela-flees
+  date: '1985-09'
+  datePrecision: month
+  track: movement
+  title: 'Ma Anand Sheela flees commune'
+  summary: 'Sheela and inner circle flee Rajneeshpuram. Osho publicly expels her and encourages followers to report crimes.'
+  claimLevel: established
+  cite: ['usdoj-cr85-0150', 'oregonian-series']
+
+- id: osho-arrested
+  date: '1985-10-28'
+  datePrecision: day
+  track: life
+  title: 'Arrested on immigration fraud charges'
+  summary: 'Arrested at Charlotte, NC airport while reportedly attempting to leave the country. Charged with immigration fraud.'
+  claimLevel: established
+  cite: ['usdoj-cr85-0150']
+
+- id: alford-plea
+  date: '1985-11-14'
+  datePrecision: day
+  track: life
+  title: 'Alford plea and deportation'
+  summary: 'Enters Alford plea to two counts of immigration fraud. Receives 10-year suspended sentence, fined $400,000. Deported from US.'
+  claimLevel: established
+  cite: ['usdoj-cr85-0150']
+
+# ——— Final Years ———
+
+- id: denied-entry-21-countries
+  date: '1986'
+  datePrecision: year
+  track: life
+  title: 'Denied entry to 21 countries'
+  summary: 'Following deportation from the US, Osho is denied entry to 21 countries before returning to India.'
+  claimLevel: reported
+  cite: ['britannica-osho', 'carter-2011']
+
+- id: return-to-pune
+  date: '1986-07'
+  datePrecision: month
+  track: life
+  title: 'Returns to Pune'
+  summary: 'Returns to India and re-establishes the Pune ashram as an international meditation center.'
+  claimLevel: established
+  cite: ['britannica-osho', 'carter-2011']
+  place: pune-ashram
+
+- id: name-change-osho
+  date: '1989-02'
+  datePrecision: month
+  track: life
+  title: "Changes name to 'Osho'"
+  summary: "Drops 'Bhagwan Shree Rajneesh' and adopts the name 'Osho.' Enters a period of public silence."
+  claimLevel: established
+  cite: ['britannica-osho', 'osho-com-archives']
+
+- id: death
+  date: '1990-01-19'
+  datePrecision: day
+  track: life
+  title: 'Death'
+  summary: 'Dies of heart failure (massive coronary thrombosis) at age 58 in Pune, per physician Dr. Gokul Gokani.'
+  claimLevel: established
+  cite: ['britannica-osho']
+  place: pune-ashram
+
+# ——— World Context ———
+
+- id: jonestown-massacre
+  date: '1978-11-18'
+  datePrecision: day
+  track: world
+  title: 'Jonestown massacre'
+  summary: "Over 900 followers of Jim Jones die in Guyana. Increases global scrutiny of 'new religious movements.'"
+  claimLevel: established
+  cite: ['hassan-2015']
+
+- id: reagan-elected
+  date: '1980-11-04'
+  datePrecision: day
+  track: world
+  title: 'Ronald Reagan elected US President'
+  summary: "Reagan's election signals conservative shift in American politics, increasing tensions with counter-cultural movements."
+  claimLevel: established
+  cite: ['fitzgerald-1986']

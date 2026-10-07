@@ -1,0 +1,166 @@
+/*
+ * Design Tokens — Osho Documentary
+ *
+ * Calm, editorial, archival tone. Encyclopedia meets long-form journalism.
+ * All color pairs tested for WCAG AA contrast (4.5:1 body, 3:1 large text).
+ *
+ * Usage: var(--token-name) anywhere in CSS / Tailwind arbitrary values.
+ */
+
+:root {
+  /* ——— Color: Light theme ——— */
+  --color-bg: #faf8f5; /* warm parchment */
+  --color-bg-elevated: #ffffff;
+  --color-bg-inset: #f2efe9;
+  --color-surface: #ffffff;
+  --color-border: #d6d0c4;
+  --color-border-subtle: #e8e3da;
+
+  --color-text: #1a1714; /* near-black warm */
+  --color-text-secondary: #5c5549;
+  --color-text-muted: #8a8279;
+  --color-text-inverse: #faf8f5;
+
+  --color-accent: #8b5e3c; /* warm amber-brown */
+  --color-accent-hover: #7a5235;
+  --color-accent-subtle: #f5ede4;
+
+  --color-link: #6b4423;
+  --color-link-hover: #4d3118;
+  --color-link-visited: #7a5a3f;
+
+  /* Claim levels — icon + underline patterns, not color alone */
+  --color-claim-established: #2e7d32;
+  --color-claim-reported: #1565c0;
+  --color-claim-disputed: #e65100;
+  --color-claim-alleged: #ad1457;
+  --color-claim-interpretation: #6a1b9a;
+
+  /* Status */
+  --color-success: #2e7d32;
+  --color-warning: #e65100;
+  --color-error: #c62828;
+  --color-info: #1565c0;
+
+  /* ——— Spacing scale (4px base) ——— */
+  --space-0: 0;
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem; /* 48px */
+  --space-16: 4rem; /* 64px */
+  --space-20: 5rem; /* 80px */
+  --space-24: 6rem; /* 96px */
+
+  /* ——— Typography scale (major third, 1.25 ratio) ——— */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem; /* 36px */
+  --text-5xl: 3rem; /* 48px */
+
+  --leading-tight: 1.25;
+  --leading-normal: 1.6;
+  --leading-loose: 1.8;
+
+  --measure: 70ch; /* max line length for readability */
+
+  /* Font stacks — Apple HIG style (System UI for chrome, Premium Serif for content) */
+  --font-serif: 'Source Serif 4', 'Georgia', 'Times New Roman', serif;
+  --font-display: 'Fraunces', 'Source Serif 4', 'Georgia', serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --font-mono: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+  --font-dyslexia: 'OpenDyslexic', var(--font-sans);
+
+  --font-body: var(--font-serif);
+  --font-heading: var(--font-display);
+  --font-ui: var(--font-sans);
+
+  /* Fluid display sizes */
+  --text-display: clamp(2.75rem, 9vw + 0.5rem, 8rem);
+  --text-hero: clamp(2.25rem, 5vw + 1rem, 5rem);
+
+  /* ——— Radius (double-bezel: inner = outer - padding) ——— */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-squircle: 2rem;
+  --bezel-pad: 0.375rem;
+  --radius-squircle-inner: calc(var(--radius-squircle) - var(--bezel-pad));
+  --radius-full: 9999px;
+
+  /* ——— Shadow (soft, highly diffused) ——— */
+  --shadow-sm: 0 1px 2px rgba(26, 23, 20, 0.04);
+  --shadow-md: 0 8px 24px -8px rgba(26, 23, 20, 0.08);
+  --shadow-lg: 0 16px 48px -12px rgba(26, 23, 20, 0.1);
+  --shadow-xl: 0 32px 80px -20px rgba(26, 23, 20, 0.14);
+  --inner-highlight: inset 0 1px 1px rgba(255, 255, 255, 0.7);
+
+  /* ——— Motion (mass + spring physics; no linear/ease-in-out) ——— */
+  --duration-fast: 150ms;
+  --duration-normal: 350ms;
+  --duration-slow: 700ms;
+  --duration-reveal: 900ms;
+  --easing-default: cubic-bezier(0.32, 0.72, 0, 1);
+  --easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --easing-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ——— Z-index scale ——— */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-popover: 500;
+  --z-toast: 600;
+  --z-skip-link: 700;
+}
+
+/* ——— Dark theme ——— */
+[data-theme='dark'] {
+  --color-bg: #141210;
+  --color-bg-elevated: #1e1c18;
+  --color-bg-inset: #0e0d0b;
+  --color-surface: #1e1c18;
+  --color-border: #3a3630;
+  --color-border-subtle: #2a2722;
+
+  --color-text: #ede9e1;
+  --color-text-secondary: #b5ae9f;
+  --color-text-muted: #7d7769;
+  --color-text-inverse: #141210;
+
+  --color-accent: #d4a574;
+  --color-accent-hover: #e0b98e;
+  --color-accent-subtle: #2a2118;
+
+  --color-link: #d4a574;
+  --color-link-hover: #e0b98e;
+  --color-link-visited: #c49a6c;
+
+  --color-claim-established: #66bb6a;
+  --color-claim-reported: #64b5f6;
+  --color-claim-disputed: #ff9800;
+  --color-claim-alleged: #f48fb1;
+  --color-claim-interpretation: #ce93d8;
+
+  --color-success: #66bb6a;
+  --color-warning: #ff9800;
+  --color-error: #ef5350;
+  --color-info: #64b5f6;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 8px 24px -8px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 16px 48px -12px rgba(0, 0, 0, 0.45);
+  --shadow-xl: 0 32px 80px -20px rgba(0, 0, 0, 0.55);
+  --inner-highlight: inset 0 1px 1px rgba(255, 255, 255, 0.08);
+}
