@@ -1,5 +1,8 @@
+.next
+out
 dist
-.astro
+build
 node_modules
 public
 package-lock.json
+*.tsbuildinfo

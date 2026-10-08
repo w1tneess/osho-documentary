@@ -5,6 +5,7 @@
 [![React](https://img.shields.io/badge/React-19.3-blue?style=for-the-badge&logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![CI](https://github.com/w1tneess/osho-documentary/actions/workflows/ci.yml/badge.svg)](https://github.com/w1tneess/osho-documentary/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-MIT-amber?style=for-the-badge)](LICENSE)
 
 An objective, investigative, multimedia documentary web platform examining the life, teachings, communes, and controversies of **Bhagwan Shree Rajneesh (Osho)**. Built with modern web architecture, editorial typography, evidentiary cross-referencing, and an interactive archival gallery.
