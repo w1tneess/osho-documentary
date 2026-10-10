@@ -15,6 +15,15 @@ export interface ArticleMetadata {
 
 const ARTICLES_DIR = path.join(process.cwd(), 'src/content/articles');
 
+function toSafePathSegment(value: string): string {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9_-]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^[-_]+|[-_]+$/g, '');
+}
+
 let cache: ArticleMetadata[] | null = null;
 
 export function getAllArticles(): ArticleMetadata[] {
@@ -37,11 +46,13 @@ export function getAllArticles(): ArticleMetadata[] {
       const raw = fs.readFileSync(filePath, 'utf-8');
       const { data, content } = matter(raw);
       const fileSlug = file.replace(/\.mdx?$/, '');
+      const safeCategory = toSafePathSegment(cat);
+      const safeFileSlug = toSafePathSegment(fileSlug);
 
       articles.push({
-        slug: `${cat}/${fileSlug}`,
-        category: cat,
-        fileSlug,
+        slug: `${safeCategory}/${safeFileSlug}`,
+        category: safeCategory,
+        fileSlug: safeFileSlug,
         title: data.title || fileSlug,
         summary: data.summary || '',
         lastReviewed: data.lastReviewed || '',
