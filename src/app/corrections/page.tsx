@@ -6,7 +6,8 @@ import { Calendar, ArrowRight, History, GitPullRequest, ShieldCheck } from 'luci
 
 export const metadata: Metadata = {
   title: 'Public Corrections Log | Osho Documentary Archive',
-  description: 'Complete transparent record of factual corrections, retractions, and revisions made to this archive.',
+  description:
+    'Complete transparent record of factual corrections, retractions, and revisions made to this archive.',
 };
 
 export default function CorrectionsPage() {
@@ -26,7 +27,9 @@ export default function CorrectionsPage() {
         </h1>
 
         <p className="text-base sm:text-lg text-[var(--color-text-secondary)] max-w-3xl leading-relaxed font-sans">
-          Historical rigor requires ruthless transparency. When factual errors, conflations, or omissions are verified, they are corrected and permanently recorded here with an explanation of why the change occurred.
+          Historical rigor requires ruthless transparency. When factual errors, conflations, or
+          omissions are verified, they are corrected and permanently recorded here with an
+          explanation of why the change occurred.
         </p>
       </div>
 
@@ -37,12 +40,14 @@ export default function CorrectionsPage() {
             Our Correction Charter
           </h2>
           <p className="text-xs sm:text-sm text-[var(--color-text-secondary)] font-sans max-w-xl leading-relaxed">
-            We never silently edit factual claims. All substantive revisions to dates, demographic figures, participant testimonies, or legal findings are permanently logged with their corresponding archival source.
+            We never silently edit factual claims. All substantive revisions to dates, demographic
+            figures, participant testimonies, or legal findings are permanently logged with their
+            corresponding archival source.
           </p>
         </div>
 
         <a
-          href="https://github.com/advait/osho-documentary/issues/new?title=%5BCorrection+Notice%5D+Factual+Discrepancy"
+          href="https://github.com/w1tneess/osho-documentary/issues/new?title=%5BCorrection+Notice%5D+Factual+Discrepancy"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-sm bg-[var(--color-text)] text-[var(--color-bg)] text-xs font-mono font-semibold uppercase tracking-wider hover:opacity-90 transition-opacity no-underline shrink-0 shadow-xs"
@@ -89,7 +94,10 @@ export default function CorrectionsPage() {
 
               {corr.cite && corr.cite.length > 0 && (
                 <span>
-                  Cited Source: <strong className="text-[var(--color-text-secondary)]">{corr.cite.join(', ')}</strong>
+                  Cited Source:{' '}
+                  <strong className="text-[var(--color-text-secondary)]">
+                    {corr.cite.join(', ')}
+                  </strong>
                 </span>
               )}
             </div>

@@ -67,10 +67,16 @@ export function getAllArticles(): ArticleMetadata[] {
 }
 
 export function getArticlesByCategory(category: string): ArticleMetadata[] {
-  return getAllArticles().filter((a) => a.category.toLowerCase() === category.toLowerCase());
+  const safeCat = toSafePathSegment(category);
+  return getAllArticles().filter((a) => a.category === safeCat);
 }
 
 export function getArticleBySlug(slugPath: string): ArticleMetadata | null {
-  const normalized = slugPath.replace(/^\/+|\/+$/g, '');
+  const normalized = slugPath
+    .replace(/^\/+|\/+$/g, '')
+    .split('/')
+    .filter(Boolean)
+    .map(toSafePathSegment)
+    .join('/');
   return getAllArticles().find((a) => a.slug === normalized) || null;
 }

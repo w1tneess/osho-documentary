@@ -31,10 +31,10 @@ export function ArticleAuditDrawer({
 }: ArticleAuditDrawerProps) {
   const [open, setOpen] = useState(false);
 
-  const issueUrl = `https://github.com/advait/osho-documentary/issues/new?title=${encodeURIComponent(
-    `[Discrepancy Report]: ${title}`
+  const issueUrl = `https://github.com/w1tneess/osho-documentary/issues/new?title=${encodeURIComponent(
+    `[Discrepancy Report]: ${title}`,
   )}&body=${encodeURIComponent(
-    `Article: ${slug}\nDiscrepancy Details:\n\nRequested Evidence / Citation Correction:`
+    `Article: ${slug}\nDiscrepancy Details:\n\nRequested Evidence / Citation Correction:`,
   )}`;
 
   return (
@@ -54,12 +54,15 @@ export function ArticleAuditDrawer({
                 Editorial Transparency & Verification Audit
               </span>
               <span className="text-[11px] text-[var(--color-text-secondary)]">
-                {sourceCount} Verified Primary Sources • {wordCount} Words • {readingTimeMinutes} min reading duration
+                {sourceCount} Verified Primary Sources • {wordCount} Words • {readingTimeMinutes}{' '}
+                min reading duration
               </span>
             </div>
           </div>
           <div className="flex items-center gap-2 text-[var(--color-text-muted)]">
-            <span className="text-[11px] font-mono hidden sm:inline">{open ? 'Hide Audit' : 'Inspect Audit'}</span>
+            <span className="text-[11px] font-mono hidden sm:inline">
+              {open ? 'Hide Audit' : 'Inspect Audit'}
+            </span>
             {open ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </div>
         </button>
@@ -74,8 +77,9 @@ export function ArticleAuditDrawer({
               className="p-5 pt-2 border-t border-black/[0.06] dark:border-white/[0.08] space-y-4 overflow-hidden"
             >
               <p className="text-[var(--color-text-secondary)] leading-relaxed text-xs">
-                This dossier was compiled adhering to strict forensic documentary standards. Every factual premise
-                is checked against federal trial archives, peer-reviewed monographs, and firsthand testimonies.
+                This dossier was compiled adhering to strict forensic documentary standards. Every
+                factual premise is checked against federal trial archives, peer-reviewed monographs,
+                and firsthand testimonies.
               </p>
 
               {/* Claims breakdown */}
@@ -110,7 +114,8 @@ export function ArticleAuditDrawer({
               {/* Verification Status & Link */}
               <div className="pt-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-t border-black/[0.04] dark:border-white/[0.06] font-mono text-[11px] text-[var(--color-text-muted)]">
                 <div>
-                  Archival Fact-Check: <span className="text-[var(--color-text)] font-semibold">{lastReviewed}</span>
+                  Archival Fact-Check:{' '}
+                  <span className="text-[var(--color-text)] font-semibold">{lastReviewed}</span>
                 </div>
                 <a
                   href={issueUrl}
