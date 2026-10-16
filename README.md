@@ -182,6 +182,11 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to explore t
 
 ---
 
+## ☕ Support
+If you value this project, you can support my work at [support.advaitachandra.in](https://support.advaitachandra.in).
+
+---
+
 ## 📄 License
 
 This codebase is open source under the [MIT License](LICENSE). Archival photographs and historical public records remain the property of their respective archival repositories and are presented under educational and historical fair-use principles.
