@@ -214,6 +214,7 @@ export function Footer() {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-[var(--color-text-muted)] gap-4">
           <div>1931–1990 • Historical & Educational Archival Corpus • Zero Fabricated Claims</div>
           <div>All Claims Graded: Established / Reported / Disputed / Alleged</div>
+          <a href="https://support.advaitachandra.in" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--color-text)] transition-colors">Support this project</a>
         </div>
       </div>
     </footer>
