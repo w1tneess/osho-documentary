@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Navigation, ArrowRight, Compass, Globe, ExternalLink, ShieldAlert, FileText, CheckCircle2 } from 'lucide-react';
@@ -13,9 +13,6 @@ interface Place {
   coordinates: string;
   lat: number;
   lng: number;
-  // Map SVG normalized percentage coordinates [x, y] on 1000x500 world projection
-  svgX: number;
-  svgY: number;
   era: string;
   description: string;
   significance: string;
@@ -34,8 +31,6 @@ const PLACES: Place[] = [
     coordinates: '23.45° N, 77.95° E',
     lat: 23.45,
     lng: 77.95,
-    svgX: 685,
-    svgY: 228,
     era: '1931–1938',
     description: 'A secluded rural village in Raisen district where Chandra Mohan Jain was born on December 11, 1931, in his maternal grandfather’s house. Here he experienced complete unstructured freedom without parental restraint for his first seven formative years.',
     significance: 'Birthplace & Formative Solitude',
@@ -52,8 +47,6 @@ const PLACES: Place[] = [
     coordinates: '23.18° N, 79.98° E',
     lat: 23.18,
     lng: 79.98,
-    svgX: 695,
-    svgY: 232,
     era: '1951–1966',
     description: 'Site of the University of Jabalpur where Osho served as Professor of Philosophy, and Bhanvartal Garden where he claimed spiritual enlightenment on March 21, 1953, under a Maulshree tree.',
     significance: 'Academic Tenure & Enlightenment',
@@ -70,8 +63,6 @@ const PLACES: Place[] = [
     coordinates: '18.96° N, 72.82° E',
     lat: 18.96,
     lng: 72.82,
-    svgX: 672,
-    svgY: 248,
     era: '1970–1974',
     description: 'Woodlands Apartments on Peddar Road where Osho held evening intimate darshans and initiated his first disciples into Neo-Sannyas, introducing orange robes and the 108-bead mala.',
     significance: 'Genesis of Neo-Sannyas Movement',
@@ -88,8 +79,6 @@ const PLACES: Place[] = [
     coordinates: '18.53° N, 73.89° E',
     lat: 18.53,
     lng: 73.89,
-    svgX: 678,
-    svgY: 252,
     era: '1974–1981 & 1987–1990',
     description: 'A 6-acre leafy estate that transformed into a worldwide spiritual commune. Hosted daily morning discourses, Western cathartic psychotherapy groups, and remains today the OSHO International Resort.',
     significance: 'Global Ashrama & Final Zen Talks',
@@ -103,11 +92,9 @@ const PLACES: Place[] = [
     id: 'rajneeshpuram',
     name: 'Rajneeshpuram, Wasco County, Oregon',
     region: 'United States',
-    coordinates: '44.76° N, -120.51° W',
+    coordinates: '44.76° N, 120.51° W',
     lat: 44.76,
     lng: -120.51,
-    svgX: 205,
-    svgY: 152,
     era: '1981–1985',
     description: 'The 64,229-acre Big Muddy Ranch developed into an incorporated city with 7,000 residents, private airstrip, reservoir, police department, public bus transit, and a fleet of 93 Rolls-Royces.',
     significance: 'The American Utopian Experiment',
@@ -121,11 +108,9 @@ const PLACES: Place[] = [
     id: 'the-dalles',
     name: 'The Dalles, Oregon',
     region: 'United States',
-    coordinates: '45.59° N, -121.17° W',
+    coordinates: '45.59° N, 121.17° W',
     lat: 45.59,
     lng: -121.17,
-    svgX: 202,
-    svgY: 147,
     era: 'September 1984',
     description: 'County seat of Wasco County. Site where commune operators contaminated 10 restaurant salad bars with Salmonella typhimurium to suppress voter turnout, sickening 751 people in the first confirmed U.S. bioterrorism incident.',
     significance: '1984 Salmonella Bioterror Attack',
@@ -137,10 +122,24 @@ const PLACES: Place[] = [
   },
 ];
 
+// Equirectangular projection onto the 1000x500 map canvas
+const project = (p: Place) => ({ x: ((p.lng + 180) / 360) * 1000, y: ((90 - p.lat) / 180) * 500 });
+const VIEWBOXES = { All: "0 0 1000 500", India: "681 177 60 30", "United States": "134 109 60 30" } as const;
+const LABEL_LEFT = new Set(["mumbai", "the-dalles"]);
+
 export default function MapPage() {
   const [selectedPlace, setSelectedPlace] = useState<Place>(PLACES[4]); // Default to Rajneeshpuram
   const [regionFilter, setRegionFilter] = useState<'All' | 'India' | 'United States'>('All');
 
+  const [countryPaths, setCountryPaths] = useState<string[]>([]);
+  useEffect(() => {
+    fetch('/images/world-map.svg')
+      .then((r) => r.text())
+      .then((svg) => setCountryPaths([...svg.matchAll(/ d="([^"]+)"/g)].map((m) => m[1])))
+      .catch(() => {});
+  }, []);
+
+  const k = Number(VIEWBOXES[regionFilter].split(" ")[2]) / 1000; // marker scale vs. zoom
   const filteredPlaces = regionFilter === 'All'
     ? PLACES
     : PLACES.filter((p) => p.region === regionFilter);
@@ -190,18 +189,17 @@ export default function MapPage() {
           </div>
         </div>
 
-        {/* SVG World Map / Schematic Surface */}
-        <div className="relative w-full aspect-[2/1] bg-neutral-950 rounded-none overflow-hidden border border-neutral-800">
-          <svg
-            viewBox="0 0 1000 500"
+        {/* SVG World Map: real Natural Earth geometry (equirectangular), zooms to the selected region */}
+        <div className="relative w-full aspect-[2/1] bg-neutral-950 overflow-hidden border border-neutral-800">
+          <motion.svg
+            viewBox={VIEWBOXES[regionFilter]}
+            animate={{ viewBox: VIEWBOXES[regionFilter] }}
+            transition={{ duration: 0.8, ease: 'easeInOut' }}
             className="w-full h-full select-none"
-            style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.5))' }}
+            role="group"
+            aria-label="Map of places in the Rajneesh movement"
           >
-            {/* Latitude / Longitude Graticule Lines */}
             <defs>
-              <pattern id="grid" width="100" height="50" patternUnits="userSpaceOnUse">
-                <path d="M 100 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="0.5" />
-              </pattern>
               <radialGradient id="beaconGlow" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stopColor="#d97706" stopOpacity="0.8" />
                 <stop offset="100%" stopColor="#d97706" stopOpacity="0" />
@@ -209,113 +207,64 @@ export default function MapPage() {
             </defs>
 
             <rect width="1000" height="500" fill="#08080a" />
-            <rect width="1000" height="500" fill="url(#grid)" />
+            <g fill="#26262b" stroke="#5a5a63" strokeWidth="0.6" strokeLinejoin="round">
+              {countryPaths.map((d, i) => (
+                <path key={i} d={d} vectorEffect="non-scaling-stroke" />
+              ))}
+            </g>
 
-            {/* Stylized Continents Outlines */}
-            {/* North America */}
-            <path
-              d="M 120 70 Q 200 60 280 90 Q 320 140 290 190 Q 250 220 220 260 Q 180 290 160 250 Q 120 210 100 150 Z"
-              fill="rgba(255,255,255,0.04)"
-              stroke="rgba(255,255,255,0.12)"
-              strokeWidth="1"
-            />
-            {/* South America */}
-            <path
-              d="M 270 290 Q 330 310 320 380 Q 290 460 260 480 Q 230 420 250 340 Z"
-              fill="rgba(255,255,255,0.03)"
-              stroke="rgba(255,255,255,0.08)"
-              strokeWidth="1"
-            />
-            {/* Europe */}
-            <path
-              d="M 460 80 Q 540 70 560 120 Q 530 160 480 150 Q 450 120 460 80 Z"
-              fill="rgba(255,255,255,0.04)"
-              stroke="rgba(255,255,255,0.1)"
-              strokeWidth="1"
-            />
-            {/* Africa */}
-            <path
-              d="M 480 170 Q 560 160 570 240 Q 550 340 500 370 Q 460 300 470 220 Z"
-              fill="rgba(255,255,255,0.03)"
-              stroke="rgba(255,255,255,0.08)"
-              strokeWidth="1"
-            />
-            {/* Asia & India */}
-            <path
-              d="M 570 80 Q 750 60 850 140 Q 820 230 760 260 Q 710 310 660 260 Q 640 210 580 170 Z"
-              fill="rgba(255,255,255,0.05)"
-              stroke="rgba(255,255,255,0.14)"
-              strokeWidth="1"
-            />
-            {/* Australia */}
-            <path
-              d="M 780 340 Q 860 330 870 400 Q 820 440 770 410 Z"
-              fill="rgba(255,255,255,0.03)"
-              stroke="rgba(255,255,255,0.08)"
-              strokeWidth="1"
-            />
+            {/* Transit arc Pune -> Rajneeshpuram */}
+            {regionFilter === 'All' && (() => {
+              const a = project(PLACES[3]);
+              const b = project(PLACES[4]);
+              return (
+                <path
+                  d={`M ${a.x} ${a.y} Q ${(a.x + b.x) / 2} ${Math.min(a.y, b.y) - 110} ${b.x} ${b.y}`}
+                  fill="none"
+                  stroke="rgba(217, 119, 6, 0.6)"
+                  strokeWidth="1.5"
+                  strokeDasharray="4 4"
+                />
+              );
+            })()}
 
-            {/* Flight / Transit Arc connecting Pune/India to Oregon/Rajneeshpuram */}
-            <path
-              d="M 678 252 Q 440 60 205 152"
-              fill="none"
-              stroke="rgba(217, 119, 6, 0.35)"
-              strokeWidth="1.5"
-              strokeDasharray="4 4"
-            />
-
-            {/* Interactive Pins */}
-            {PLACES.map((place) => {
+            {PLACES.filter((p) => regionFilter === 'All' || p.region === regionFilter).map((place) => {
               const isSelected = selectedPlace.id === place.id;
+              const { x, y } = project(place);
+              const left = LABEL_LEFT.has(place.id);
               return (
                 <g
                   key={place.id}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={place.name}
                   onClick={() => setSelectedPlace(place)}
-                  className="cursor-pointer transition-transform hover:scale-110"
+                  onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setSelectedPlace(place)}
+                  className="cursor-pointer outline-none"
                 >
-                  {/* Invisible generous touch hit area (diameter 64px in SVG space) */}
-                  <circle
-                    cx={place.svgX}
-                    cy={place.svgY}
-                    r="32"
-                    fill="transparent"
-                    pointerEvents="all"
-                  />
-                  {/* Outer pulse when selected */}
+                  <circle cx={x} cy={y} r={14 * k} fill="transparent" />
                   {isSelected && (
-                    <circle
-                      cx={place.svgX}
-                      cy={place.svgY}
-                      r="18"
-                      fill="url(#beaconGlow)"
-                      className="animate-ping"
-                      style={{ animationDuration: '3s' }}
-                    />
+                    <circle cx={x} cy={y} r={14 * k} fill="url(#beaconGlow)" className="animate-ping" style={{ animationDuration: '3s', transformBox: 'fill-box', transformOrigin: 'center' }} />
                   )}
-                  {/* Pin Circle */}
-                  <circle
-                    cx={place.svgX}
-                    cy={place.svgY}
-                    r={isSelected ? 7 : 5}
-                    fill={isSelected ? '#f59e0b' : '#a3a3a3'}
-                    stroke="#ffffff"
-                    strokeWidth={isSelected ? 2 : 1}
-                  />
-                  {/* Label */}
+                  <circle cx={x} cy={y} r={(isSelected ? 6 : 4.5) * k} fill={isSelected ? '#f59e0b' : '#d4d4d8'} stroke="#ffffff" strokeWidth={(isSelected ? 1.5 : 1) * k} />
                   <text
-                    x={place.svgX + 8}
-                    y={place.svgY + 4}
-                    fill={isSelected ? '#fbbf24' : '#737373'}
-                    fontSize={isSelected ? '10' : '8'}
+                    x={x + (left ? -9 : 9) * k}
+                    y={y + 3.5 * k}
+                    textAnchor={left ? 'end' : 'start'}
+                    fill={isSelected ? '#fbbf24' : '#d4d4d8'}
+                    fontSize={(isSelected ? 11 : 9.5) * k}
                     fontFamily="monospace"
                     fontWeight={isSelected ? 'bold' : 'normal'}
+                    stroke="#08080a"
+                    strokeWidth={2.5 * k}
+                    paintOrder="stroke"
                   >
                     {place.name.split(',')[0]}
                   </text>
                 </g>
               );
             })}
-          </svg>
+          </motion.svg>
         </div>
       </div>
 
